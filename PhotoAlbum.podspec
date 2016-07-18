@@ -13,10 +13,13 @@ Pod::Spec.new do |s|
   s.summary      = "PhotoAlbum for iOS"
   s.description  = "A photo browser supporting multi-Photo selection, single photo selection, video, crop."
   s.homepage     = "https://github.com/AngleZhou/PhotoAlbum"
-  s.license      = "MIT"
+  s.license      = { :type => "MIT", :file => "LICENSE" }
   s.author       = { "AngleZhou" => "zhouq87724@163.com" }
   s.platform     = :ios, "8.0"
   s.source       = { :git => "https://github.com/AngleZhou/PhotoAlbum.git", :tag => "0.0.1" }
-  s.source_files  = "PhotoAlbum", "PhotoAlbum/**/*.{h,m}"
+  s.source_files  = "PhotoAlbum", "PhotoAlbum/Classes/**/*.{h,m}"
+  s.resources = "Assets"
+  s.requires_arc = true
 
+  
 end

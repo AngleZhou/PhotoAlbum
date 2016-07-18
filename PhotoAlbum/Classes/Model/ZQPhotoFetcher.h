@@ -14,12 +14,12 @@
 
 @class ZQAlbumModel;
 @class ZQPhotoModel;
-@class ZQAlbumNavVC;
+@class ZQPhotoAlbum;
 
 @interface ZQPhotoFetcher : NSObject
 
 + (BOOL)authorizationStatusAuthorized;
-+ (void)exceedMaxImagesCountAlert:(NSInteger)maxImagesCount presentingVC:(UIViewController * _Nonnull)vc navVC:(ZQAlbumNavVC * _Nonnull)navVC;
++ (void)exceedMaxImagesCountAlert:(NSInteger)maxImagesCount presentingVC:(UIViewController * _Nonnull)vc navVC:(ZQPhotoAlbum * _Nonnull)navVC;
 
 //获取所有相册，completion中返回ZQAlbumModel数组
 + (void)getAllAlbumsWithType:(ZQAlbumType)type completion:(void(^_Nonnull)(NSArray<ZQAlbumModel*> * _Nonnull albums))completion;

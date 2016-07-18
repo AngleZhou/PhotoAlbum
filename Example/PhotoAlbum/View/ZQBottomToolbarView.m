@@ -12,7 +12,7 @@
 #import "ZQPhotoPreviewVC.h"
 #import "ZQPreviewCell.h"
 #import "ZQPhotoFetcher.h"
-#import "ZQAlbumNavVC.h"
+#import "ZQPhotoAlbum.h"
 #import "ProgressHUD.h"
 #import "ViewUtils.h"
 #import "ZQPublic.h"
@@ -140,7 +140,7 @@
 
 
 - (void)preview {
-    ZQAlbumNavVC *nav = (ZQAlbumNavVC *)[self firstViewController].navigationController;
+    ZQPhotoAlbum *nav = (ZQPhotoAlbum *)[self firstViewController].navigationController;
     
     ZQPhotoPreviewVC *vc = [[ZQPhotoPreviewVC alloc] init];
     vc.models = self.selections;
@@ -202,7 +202,7 @@
         dispatch_async(dispatch_get_main_queue(), ^{
             [ProgressHUD hide];
             UIViewController *vc = [wSelf firstViewController];
-            ZQAlbumNavVC *nav = (ZQAlbumNavVC *)vc.navigationController;
+            ZQPhotoAlbum *nav = (ZQPhotoAlbum *)vc.navigationController;
             [nav dismissViewControllerAnimated:YES completion:^{
                 if (nav.didFinishPickingPhotosHandle) {
                     NSArray *images = [results allValues];

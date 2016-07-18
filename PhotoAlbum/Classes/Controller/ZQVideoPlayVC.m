@@ -10,7 +10,7 @@
 #import <AVFoundation/AVFoundation.h>
 #import "ZQPhotoModel.h"
 #import "ZQPhotoFetcher.h"
-#import "ZQAlbumNavVC.h"
+#import "ZQPhotoAlbum.h"
 #import "ProgressHUD.h"
 #import "ZQTools.h"
 #import "ZQPublic.h"
@@ -109,7 +109,7 @@
     [self pause];
 }
 - (void)okVideoSelect {
-    NSTimeInterval maxDur = ((ZQAlbumNavVC *)self.navigationController).maxVideoDurationInSeconds;
+    NSTimeInterval maxDur = ((ZQPhotoAlbum *)self.navigationController).maxVideoDurationInSeconds;
     if (maxDur > 0.01 && self.model.asset.duration > maxDur) {
        
             NSString* message = [NSString stringWithFormat:_LocalizedString(@"VIDEO_CHOICE_LIMIT"), (NSInteger)maxDur/60];
@@ -129,7 +129,7 @@
     
     [ZQPhotoFetcher getPhotoFastWithAssets:self.model.asset photoWidth:kTPScreenWidth completionHandler:^(UIImage * _Nullable image, NSDictionary * _Nullable info) {
         
-        ZQAlbumNavVC *nav = (ZQAlbumNavVC *)wSelf.navigationController;
+        ZQPhotoAlbum *nav = (ZQPhotoAlbum *)wSelf.navigationController;
         wSelf.exportImage = image;//先存小图，再存大图
         dispatch_async(dispatch_get_main_queue(), ^{
             if (nav.updateUIFinishVideoPicking) {
@@ -142,7 +142,7 @@
         //在progressHUD上加一个progress label
         [ProgressHUD sharedInstance].progress = progress;
     } completionHandler:^(AVAsset * _Nullable playerAsset, NSDictionary * _Nullable info, NSURL * _Nullable url) {
-        ZQAlbumNavVC *nav = (ZQAlbumNavVC *)wSelf.navigationController;
+        ZQPhotoAlbum *nav = (ZQPhotoAlbum *)wSelf.navigationController;
         dispatch_async(dispatch_get_main_queue(), ^{
             [ProgressHUD hide];
             [nav dismissViewControllerAnimated:YES completion:^{

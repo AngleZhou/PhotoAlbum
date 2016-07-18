@@ -19,7 +19,7 @@
 //};
 
 
-@class ZQAlbumNavVC;
+@class ZQPhotoAlbum;
 
 
 @protocol ZQAlbumNavVCDelegate <NSObject>
@@ -39,7 +39,7 @@
 
 
 
-@interface ZQAlbumNavVC : UINavigationController
+@interface ZQPhotoAlbum : UINavigationController
 
 /**
  *  最大可选图片张数

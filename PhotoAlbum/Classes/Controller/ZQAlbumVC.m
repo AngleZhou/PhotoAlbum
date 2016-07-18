@@ -180,7 +180,7 @@ static CGFloat kButtomBarHeight = 48;
 
 - (BOOL)ZQAlbumCell:(ZQAlbumCell *)cell changeSelection:(ZQPhotoModel *)model {
     if (self.selected.count >= self.maxImagesCount && model.bSelected == NO) {
-        [ZQPhotoFetcher exceedMaxImagesCountAlert:self.maxImagesCount presentingVC:self navVC:((ZQAlbumNavVC*)self.navigationController)];
+        [ZQPhotoFetcher exceedMaxImagesCountAlert:self.maxImagesCount presentingVC:self navVC:((ZQPhotoAlbum*)self.navigationController)];
         return NO;
     }
     else {

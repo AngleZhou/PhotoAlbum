@@ -16,7 +16,7 @@
 		B229A48F1D3C6A2500C7E17A /* PhotoAlbumTests.m in Sources */ = {isa = PBXBuildFile; fileRef = B229A48E1D3C6A2500C7E17A /* PhotoAlbumTests.m */; };
 		B229A49A1D3C6A2500C7E17A /* PhotoAlbumUITests.m in Sources */ = {isa = PBXBuildFile; fileRef = B229A4991D3C6A2500C7E17A /* PhotoAlbumUITests.m */; };
 		B229A4E01D3C6A5E00C7E17A /* ZQAlbumListVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B229A4A91D3C6A5E00C7E17A /* ZQAlbumListVC.m */; };
-		B229A4E11D3C6A5E00C7E17A /* ZQAlbumNavVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B229A4AB1D3C6A5E00C7E17A /* ZQAlbumNavVC.m */; };
+		B229A4E11D3C6A5E00C7E17A /* ZQPhotoAlbum.m in Sources */ = {isa = PBXBuildFile; fileRef = B229A4AB1D3C6A5E00C7E17A /* ZQPhotoAlbum.m */; };
 		B229A4E21D3C6A5E00C7E17A /* ZQAlbumVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B229A4AD1D3C6A5E00C7E17A /* ZQAlbumVC.m */; };
 		B229A4E31D3C6A5E00C7E17A /* ZQPhotoPreviewVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B229A4AF1D3C6A5E00C7E17A /* ZQPhotoPreviewVC.m */; };
 		B229A4E41D3C6A5E00C7E17A /* ZQVideoPlayVC.m in Sources */ = {isa = PBXBuildFile; fileRef = B229A4B11D3C6A5E00C7E17A /* ZQVideoPlayVC.m */; };
@@ -81,8 +81,8 @@
 		B229A49B1D3C6A2500C7E17A /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		B229A4A81D3C6A5E00C7E17A /* ZQAlbumListVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZQAlbumListVC.h; sourceTree = "<group>"; };
 		B229A4A91D3C6A5E00C7E17A /* ZQAlbumListVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZQAlbumListVC.m; sourceTree = "<group>"; };
-		B229A4AA1D3C6A5E00C7E17A /* ZQAlbumNavVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZQAlbumNavVC.h; sourceTree = "<group>"; };
-		B229A4AB1D3C6A5E00C7E17A /* ZQAlbumNavVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZQAlbumNavVC.m; sourceTree = "<group>"; };
+		B229A4AA1D3C6A5E00C7E17A /* ZQPhotoAlbum.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZQPhotoAlbum.h; sourceTree = "<group>"; };
+		B229A4AB1D3C6A5E00C7E17A /* ZQPhotoAlbum.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZQPhotoAlbum.m; sourceTree = "<group>"; };
 		B229A4AC1D3C6A5E00C7E17A /* ZQAlbumVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZQAlbumVC.h; sourceTree = "<group>"; };
 		B229A4AD1D3C6A5E00C7E17A /* ZQAlbumVC.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = ZQAlbumVC.m; sourceTree = "<group>"; };
 		B229A4AE1D3C6A5E00C7E17A /* ZQPhotoPreviewVC.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = ZQPhotoPreviewVC.h; sourceTree = "<group>"; };
@@ -228,8 +228,8 @@
 		B229A4A71D3C6A5E00C7E17A /* Controller */ = {
 			isa = PBXGroup;
 			children = (
-				B229A4AA1D3C6A5E00C7E17A /* ZQAlbumNavVC.h */,
-				B229A4AB1D3C6A5E00C7E17A /* ZQAlbumNavVC.m */,
+				B229A4AA1D3C6A5E00C7E17A /* ZQPhotoAlbum.h */,
+				B229A4AB1D3C6A5E00C7E17A /* ZQPhotoAlbum.m */,
 				B229A4A81D3C6A5E00C7E17A /* ZQAlbumListVC.h */,
 				B229A4A91D3C6A5E00C7E17A /* ZQAlbumListVC.m */,
 				B229A4AC1D3C6A5E00C7E17A /* ZQAlbumVC.h */,
@@ -466,7 +466,7 @@
 				B229A4FE1D3C6A5E00C7E17A /* ZQPreviewCell.m in Sources */,
 				B229A5101D3C70EE00C7E17A /* ViewUtils.m in Sources */,
 				B229A4791D3C6A2500C7E17A /* AppDelegate.m in Sources */,
-				B229A4E11D3C6A5E00C7E17A /* ZQAlbumNavVC.m in Sources */,
+				B229A4E11D3C6A5E00C7E17A /* ZQPhotoAlbum.m in Sources */,
 				B229A4FD1D3C6A5E00C7E17A /* ZQCropViewOverlay.m in Sources */,
 				B229A4761D3C6A2500C7E17A /* main.m in Sources */,
 				B229A50F1D3C70EE00C7E17A /* NSString+Size.m in Sources */,

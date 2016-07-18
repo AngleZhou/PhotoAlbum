@@ -10,7 +10,7 @@
 #import "ZQPhotoFetcher.h"
 #import "ZQAlbumListCell.h"
 #import "ZQAlbumVC.h"
-#import "ZQAlbumNavVC.h"
+#import "ZQPhotoAlbum.h"
 #import <Photos/Photos.h>
 #import <PhotosUI/PhotosUI.h>
 #import "ZQAlbumModel.h"
@@ -121,7 +121,7 @@
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath {
-    ZQAlbumNavVC *nav = (ZQAlbumNavVC *)self.navigationController;
+    ZQPhotoAlbum *nav = (ZQPhotoAlbum *)self.navigationController;
     
     ZQAlbumModel *model = self.albums[indexPath.row];
     ZQAlbumVC *vc = [[ZQAlbumVC alloc] init];

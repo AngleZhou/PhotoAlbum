@@ -7,7 +7,7 @@
 //
 
 #import "ViewController.h"
-#import "ZQAlbumNavVC.h"
+#import "ZQPhotoAlbum.h"
 
 
 @interface ViewController ()
@@ -21,20 +21,20 @@
     // Do any additional setup after loading the view, typically from a nib.
 }
 - (IBAction)selectPhoto:(id)sender {
-    ZQAlbumNavVC* nav = [[ZQAlbumNavVC alloc] initWithMaxImagesCount:9 type:(ZQAlbumTypePhoto) bSingleSelect:NO];
+    ZQPhotoAlbum* nav = [[ZQPhotoAlbum alloc] initWithMaxImagesCount:9 type:(ZQAlbumTypePhoto) bSingleSelect:NO];
     if (nav) {
         [self presentViewController:nav animated:YES completion:nil];
     }
 }
 
 - (IBAction)singleSelect:(id)sender {
-    ZQAlbumNavVC* nav = [[ZQAlbumNavVC alloc] initWithType:ZQAlbumTypePhoto];
+    ZQPhotoAlbum* nav = [[ZQPhotoAlbum alloc] initWithType:ZQAlbumTypePhoto];
     if (nav) {
         [self presentViewController:nav animated:YES completion:nil];
     }
 }
 - (IBAction)selectVideo:(id)sender {
-    ZQAlbumNavVC* nav = [[ZQAlbumNavVC alloc] initWithType:ZQAlbumTypeVideo];
+    ZQPhotoAlbum* nav = [[ZQPhotoAlbum alloc] initWithType:ZQAlbumTypeVideo];
     if (nav) {
         [self presentViewController:nav animated:YES completion:nil];
     }

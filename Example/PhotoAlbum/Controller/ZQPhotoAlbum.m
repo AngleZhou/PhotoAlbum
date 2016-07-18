@@ -6,7 +6,7 @@
 //  Copyright © 2016年 ZhouQian. All rights reserved.
 //
 
-#import "ZQAlbumNavVC.h"
+#import "ZQPhotoAlbum.h"
 #import "ZQAlbumListVC.h"
 #import "ZQPhotoFetcher.h"
 #import "ZQAlbumVC.h"
@@ -16,7 +16,7 @@
 
 #define iOS9Later ([UIDevice currentDevice].systemVersion.floatValue >= 9.0f)
 
-@implementation ZQAlbumNavVC
+@implementation ZQPhotoAlbum
 
 
 - (instancetype)initWithType:(ZQAlbumType)type {
