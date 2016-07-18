@@ -11,7 +11,7 @@
 
 #import "ZQAlbumModel.h"
 #import "ZQPhotoModel.h"
-#import "ZQPhotoAlbum.h"
+#import "ZQAlbumNavVC.h"
 #import "ZQPublic.h"
 
 
@@ -43,7 +43,7 @@
 
 #pragma mark - exceed Alert
 
-+ (void)exceedMaxImagesCountAlert:(NSInteger)maxImagesCount presentingVC:(UIViewController * _Nonnull)vc navVC:(ZQPhotoAlbum * _Nonnull)navVC {
++ (void)exceedMaxImagesCountAlert:(NSInteger)maxImagesCount presentingVC:(UIViewController * _Nonnull)vc navVC:(ZQAlbumNavVC * _Nonnull)navVC {
     NSString *message;
     if (navVC.albumDelegate && [navVC.albumDelegate respondsToSelector:@selector(ZQAlbumNavVCExceedMaxImageCountMessage:)]) {
         message = [navVC.albumDelegate ZQAlbumNavVCExceedMaxImageCountMessage:navVC.maxImagesCount];

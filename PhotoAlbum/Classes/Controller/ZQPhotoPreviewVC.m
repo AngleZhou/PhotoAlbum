@@ -13,7 +13,7 @@
 #import "ZQPhotoModel.h"
 #import <Photos/Photos.h>
 #import "ZQCropViewOverlay.h"
-#import "ZQPhotoAlbum.h"
+#import "ZQAlbumNavVC.h"
 #import "ZQTools.h"
 #import "ZQPublic.h"
 #import "ViewUtils.h"
@@ -98,7 +98,7 @@
     //单选隐藏nav bar
     [self.navigationController setNavigationBarHidden:self.bSingleSelect animated:NO];
     
-    ZQPhotoAlbum *nav = (ZQPhotoAlbum *)self.navigationController;
+    ZQAlbumNavVC *nav = (ZQAlbumNavVC *)self.navigationController;
     if (self.bSingleSelect && nav.bEnableCrop) {
         self.cropOverlay = [[ZQCropViewOverlay alloc] init];
         [self.view addSubview:self.cropOverlay];
@@ -134,7 +134,7 @@
     
     UIImage *cropImage = [cell crop:rect];
     
-    ZQPhotoAlbum *nav = (ZQPhotoAlbum *)self.navigationController;
+    ZQAlbumNavVC *nav = (ZQAlbumNavVC *)self.navigationController;
     [nav dismissViewControllerAnimated:YES completion:^{
         dispatch_async(dispatch_get_main_queue(), ^{
             if (nav.didFinishPickingPhotosHandle) {
@@ -151,7 +151,7 @@
 
 - (void)selectPhoto {
     if (self.selected.count >= self.maxImagesCount && self.btnSelect.selected == NO) {
-        [ZQPhotoFetcher exceedMaxImagesCountAlert:self.maxImagesCount presentingVC:self navVC:((ZQPhotoAlbum*)self.navigationController)];
+        [ZQPhotoFetcher exceedMaxImagesCountAlert:self.maxImagesCount presentingVC:self navVC:((ZQAlbumNavVC*)self.navigationController)];
         return;
     }
     else {

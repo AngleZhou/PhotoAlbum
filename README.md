@@ -1,6 +1,5 @@
 # PhotoAlbum
 
-仿微信的相册选择，支持单双选，支持视频，支持单选正方形剪裁，支持中文简体繁体和英文。
 [![CI Status](http://img.shields.io/travis/ZhouQian/PhotoAlbum.svg?style=flat)](https://travis-ci.org/ZhouQian/PhotoAlbum)
 [![Version](https://img.shields.io/cocoapods/v/PhotoAlbum.svg?style=flat)](http://cocoapods.org/pods/PhotoAlbum)
 [![License](https://img.shields.io/cocoapods/l/PhotoAlbum.svg?style=flat)](http://cocoapods.org/pods/PhotoAlbum)
