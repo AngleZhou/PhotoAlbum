@@ -9,9 +9,9 @@ Pod::Spec.new do |s|
   s.ios.deployment_target = '8.0'
   s.source_files = 'PhotoAlbum/Classes/**/*'
   s.resource_bundles = {
-    'PhotoAlbum' => ['PhotoAlbum/Assets/PA.bundle']
+    'PhotoAlbum' => ['PhotoAlbum/Assets/PA.bundle'],
+    'OtherResources' => ['PhotoAlbum/Classes/View/ZQAlbumCell.xib']
   }
-  s.resources =  'PhotoAlbum/Classes/View/ZQAlbumCell.xib'
   s.frameworks = 'UIKit'
   s.requires_arc = true
 end
