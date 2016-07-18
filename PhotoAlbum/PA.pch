@@ -1,0 +1,22 @@
+//
+//  PA.pch
+//  PhotoAlbum
+//
+//  Created by ZhouQian on 16/6/1.
+//  Copyright © 2016年 ZhouQian. All rights reserved.
+//
+
+#ifndef PA_pch
+#define PA_pch
+
+// Include any system framework and library headers here that should be included in all compilation units.
+// You will also need to set the Prefix Header build setting of one or more of your targets to reference this file.
+#ifdef __OBJC__
+#import "ZQPublic.h"
+#import "NSString+Size.h"
+#import "ViewUtils.h"
+#import "Typedefs.h"
+#import "ZQTools.h"
+#endif
+
+#endif /* PA_pch */
