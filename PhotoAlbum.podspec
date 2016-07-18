@@ -8,7 +8,7 @@ Pod::Spec.new do |s|
   s.source           = { :git => 'https://github.com/AngleZhou/PhotoAlbum.git'}
   s.ios.deployment_target = '8.0'
   s.source_files = 'PhotoAlbum/Classes/**/*'
-  s.resources = "PhotoAlbum/**/*.{png,bundle,xib,nib}"
+  s.resources = ["PhotoAlbum/**/*.png", "PhotoAlbum/Classes/**/*.xib"]
   s.frameworks = 'UIKit'
   s.requires_arc = true
 end
