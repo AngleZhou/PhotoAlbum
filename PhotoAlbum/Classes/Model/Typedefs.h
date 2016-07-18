@@ -16,7 +16,8 @@ typedef NS_ENUM(NSInteger, ZQAlbumType) {
     ZQAlbumTypeVideoAndPhoto
 };
 
-#define _LocalizedString(x) NSLocalizedStringFromTable(x, @"ZQPhotoFetcher", @"")
+#define _LocalizedString(x) \
+NSLocalizedStringFromTableInBundle(@"OPERATE_PRIVACY", @"ZQPhotoFetcher",  [NSBundle bundleWithPath:[[[NSBundle bundleForClass:[ZQAlbumNavVC class]] resourcePath] stringByAppendingPathComponent:@"PA.bundle"]], nil)
 
 #define ZQAlbumBarTintColor HEXCOLOR(0x7ecc1e)
 #endif /* Typedefs_h */
