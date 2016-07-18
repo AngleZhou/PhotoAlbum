@@ -17,8 +17,8 @@ Pod::Spec.new do |s|
   s.author       = { "AngleZhou" => "zhouq87724@163.com" }
   s.platform     = :ios, "8.0"
   s.source       = { :git => "https://github.com/AngleZhou/PhotoAlbum.git", :tag => "0.0.1" }
-  s.source_files  = "PhotoAlbum", "PhotoAlbum/Classes/"
-  s.resources = "Assets/images/*.png"
+  s.source_files  = "PhotoAlbum", "PhotoAlbum/Classes/**/*.{h.m}"
+  s.resources = "PhotoAlbum", "PhotoAlbum/Assets/images/*.png"
   s.requires_arc = true
   s.framework  = "UIKit"
   
