@@ -18,7 +18,7 @@ Pod::Spec.new do |s|
   s.platform     = :ios, "8.0"
   s.source       = { :git => "https://github.com/AngleZhou/PhotoAlbum.git", :tag => "0.0.1" }
   s.source_files  = "PhotoAlbum", "PhotoAlbum/Classes/**/*.{h.m}"
-  s.resources = "PhotoAlbum", "PhotoAlbum/Assets/images/*.png"
+  s.resources = 'Resources/PA.bundle'
   s.requires_arc = true
   s.framework  = "UIKit"
   
