@@ -63,7 +63,7 @@ static CGFloat kButtomBarHeight = 48;
     
     UIButton* btnLeft = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 48, 48)];
     [btnLeft addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
-    [btnLeft setImage:[ZQTools image:[UIImage imageNamed:@"navi_back"] withTintColor:ZQChoosePhotoNavBtnColor] forState:UIControlStateNormal];
+    [btnLeft setImage:[ZQTools image:_image(@"navi_back") withTintColor:ZQChoosePhotoNavBtnColor] forState:UIControlStateNormal];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnLeft];
     
     NSString* title = _LocalizedString(@"OPERATION_CANCEL");

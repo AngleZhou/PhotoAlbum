@@ -27,7 +27,7 @@
     self.imageView.contentMode = UIViewContentModeScaleAspectFill;
     self.imageView.layer.masksToBounds = YES;
     
-    UIImage *image = [UIImage imageNamed:@"photo_def_photoPickerVC"];
+    UIImage *image = _image(@"photo_def_photoPickerVC")
     self.ivSelect.image = image;
     CGFloat vTapWidth = image.size.width*2;
     self.vTap = [[UIButton alloc] initWithFrame:CGRectMake(self.frame.size.width-vTapWidth, 0, vTapWidth, vTapWidth)];
@@ -59,7 +59,7 @@
 
 - (void)setBSelected:(BOOL)bSelected {
     _bSelected = bSelected;
-    self.ivSelect.image = bSelected ? [UIImage imageNamed:@"photo_sel_photoPickerVc"] : [UIImage imageNamed:@"photo_def_photoPickerVC"];
+    self.ivSelect.image = bSelected ? _image(@"photo_sel_photoPickerVc") : _image(@"photo_def_photoPickerVC");
     self.model.bSelected = bSelected;
 }
 

@@ -48,14 +48,15 @@
     [self.navigationController.navigationBar setBackgroundImage:[ZQTools createImageWithColor:kLightBottomBarBGColor] forBarMetrics:UIBarMetricsDefault];
     UIButton* btnLeft = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 48, 48)];
     [btnLeft addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
-    [btnLeft setImage:[ZQTools image:[UIImage imageNamed:@"navi_back"] withTintColor:[UIColor whiteColor]] forState:UIControlStateNormal];
+    
+    [btnLeft setImage:[ZQTools image:_image(@"navi_back") withTintColor:[UIColor whiteColor]] forState:UIControlStateNormal];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnLeft];
     
     if (!self.bSingleSelect) {
-        CGSize size = [UIImage imageNamed:@"photo_def_photoPickerVC"].size;
+        CGSize size = _image(@"photo_def_photoPickerVC").size;
         self.btnSelect = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
-        [self.btnSelect setImage:[UIImage imageNamed:@"photo_def_photoPickerVC"] forState:(UIControlStateNormal)];
-        [self.btnSelect setImage:[UIImage imageNamed:@"photo_sel_photoPickerVc"] forState:(UIControlStateSelected)];
+        [self.btnSelect setImage:_image(@"photo_def_photoPickerVC") forState:(UIControlStateNormal)];
+        [self.btnSelect setImage:_image(@"photo_sel_photoPickerVc") forState:(UIControlStateSelected)];
         self.btnSelect.selected = NO;
         [self.btnSelect addTarget:self action:@selector(selectPhoto) forControlEvents:(UIControlEventTouchUpInside)];
         self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.btnSelect];

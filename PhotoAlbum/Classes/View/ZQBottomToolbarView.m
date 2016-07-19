@@ -62,7 +62,7 @@
         [self addSubview:self.btnFinish];
         [self.btnFinish addTarget:self action:@selector(finish) forControlEvents:UIControlEventTouchUpInside];
         
-        self.ivCircle = [[UIImageView alloc] initWithImage:[UIImage imageNamed:@"photo_number_icon"]];
+        self.ivCircle = [[UIImageView alloc] initWithImage:_image(@"photo_number_icon")];
         CGFloat x = self.btnFinish.frame.origin.x - 5 - self.ivCircle.frame.size.width;
         CGFloat y = (frame.size.height - self.ivCircle.frame.size.height)/2;
         self.ivCircle.frame = CGRectMake(x, y, self.ivCircle.width, self.ivCircle.height);

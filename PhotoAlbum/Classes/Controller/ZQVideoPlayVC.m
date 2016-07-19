@@ -45,7 +45,7 @@
     [self.navigationController.navigationBar setBackgroundImage:[ZQTools createImageWithColor:kLightBottomBarBGColor] forBarMetrics:UIBarMetricsDefault];
     UIButton* btnLeft = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 48, 48)];
     [btnLeft addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
-    [btnLeft setImage:[ZQTools image:[UIImage imageNamed:@"navi_back"] withTintColor:[UIColor whiteColor]] forState:UIControlStateNormal];
+    [btnLeft setImage:[ZQTools image:_image(@"navi_back") withTintColor:[UIColor whiteColor]] forState:UIControlStateNormal];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnLeft];
     
     self.vBottomBar = [[UIView alloc] init];
@@ -64,7 +64,7 @@
     [self.btnFinish addTarget:self action:@selector(okVideoSelect) forControlEvents:UIControlEventTouchUpInside];
     
     self.ivPlay = [[UIImageView alloc] init];
-    UIImage *image = [UIImage imageNamed:@"MMVideoPreviewPlay"];
+    UIImage *image = _image(@"MMVideoPreviewPlay");
     self.ivPlay.image = image;
     self.ivPlay.frame = CGRectMake((kTPScreenWidth-image.size.width)/2, (kTPScreenHeight-image.size.height)/2, image.size.width, image.size.height);
     self.ivPlay.hidden = YES;
