@@ -8,6 +8,7 @@
 
 #import "ProgressHUD.h"
 #import "Typedefs.h"
+#import "ZQAlbumNavVC.h"
 
 @interface ProgressHUD ()
 @property (nonatomic, strong) UIView *hUDContainer;

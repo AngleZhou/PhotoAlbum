@@ -13,6 +13,7 @@
 #import "Typedefs.h"
 #import "ZQPublic.h"
 #import "NSString+Size.h"
+#import "ZQAlbumNavVC.h"
 
 @interface ZQCropBottomBar ()
 @property (nonatomic, strong) UIButton *btnCancel;

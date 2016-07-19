@@ -9,6 +9,7 @@
 #import "ZQAlbumCell.h"
 #import "ZQPhotoFetcher.h"
 #import "ZQPublic.h"
+#import "ZQAlbumNavVC.h"
 
 @interface ZQAlbumCell ()
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
@@ -27,7 +28,7 @@
     self.imageView.contentMode = UIViewContentModeScaleAspectFill;
     self.imageView.layer.masksToBounds = YES;
     
-    UIImage *image = _image(@"photo_def_photoPickerVC")
+    UIImage *image = _image(@"photo_def_photoPickerVC");
     self.ivSelect.image = image;
     CGFloat vTapWidth = image.size.width*2;
     self.vTap = [[UIButton alloc] initWithFrame:CGRectMake(self.frame.size.width-vTapWidth, 0, vTapWidth, vTapWidth)];

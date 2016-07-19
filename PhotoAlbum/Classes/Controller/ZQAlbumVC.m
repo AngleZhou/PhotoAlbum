@@ -18,6 +18,7 @@
 #import "ZQTools.h"
 #import "ZQPublic.h"
 #import "NSString+Size.h"
+#import "ZQAlbumNavVC.h"
 
 static CGFloat kButtomBarHeight = 48;
 
