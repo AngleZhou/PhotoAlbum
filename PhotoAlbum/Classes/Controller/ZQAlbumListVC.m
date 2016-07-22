@@ -128,6 +128,7 @@
     vc.mAlbum = model;
     vc.maxImagesCount = nav.maxImagesCount;
     vc.type = [model.name isEqualToString:_LocalizedString(@"Videos")] ? ZQAlbumTypeVideo : ZQAlbumTypePhoto;
+    vc.bSingleSelection = self.bSingleSelection;
     
     [self.navigationController pushViewController:vc animated:YES];
 }
