@@ -82,6 +82,12 @@
 
 
 /**
+ *  ask permission
+ */
++ (void)authorize;
+
+
+/**
  *  Convenient initializer. SingleSelect
  *
  *  @param type AlbumType.

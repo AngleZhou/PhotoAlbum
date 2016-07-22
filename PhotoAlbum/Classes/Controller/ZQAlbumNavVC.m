@@ -96,5 +96,21 @@
     return UIInterfaceOrientationMaskPortrait;
 }
 
++ (void)authorize {
+    if ([PHPhotoLibrary authorizationStatus] != PHAuthorizationStatusAuthorized) {
+        [PHPhotoLibrary requestAuthorization:^(PHAuthorizationStatus status) {
+            if ([PHPhotoLibrary authorizationStatus] != PHAuthorizationStatusAuthorized) {
+                UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:@"go to setting open access" preferredStyle:(UIAlertControllerStyleAlert)];
+                UIAlertAction *ok = [UIAlertAction actionWithTitle:@"OK" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction * _Nonnull action) {
+                    
+                }];
+                [alert addAction:ok];
+                [[ZQTools rootViewController] presentViewController:alert animated:YES completion:nil];
+            }
+        }];
+    }
+}
+
+
 
 @end
