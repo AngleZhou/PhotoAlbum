@@ -1,15 +1,15 @@
 # PhotoAlbum
 
-[![CI Status](http://img.shields.io/travis/ZhouQian/PhotoAlbum.svg?style=flat)](https://travis-ci.org/ZhouQian/PhotoAlbum)
-[![Version](https://img.shields.io/cocoapods/v/PhotoAlbum.svg?style=flat)](http://cocoapods.org/pods/PhotoAlbum)
-[![License](https://img.shields.io/cocoapods/l/PhotoAlbum.svg?style=flat)](http://cocoapods.org/pods/PhotoAlbum)
-[![Platform](https://img.shields.io/cocoapods/p/PhotoAlbum.svg?style=flat)](http://cocoapods.org/pods/PhotoAlbum)
+仿微信的相册选择，支持单双选，支持视频，支持单选正方形剪裁
 
 ## Example
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
 
+
 ## Requirements
+iOS 8.0及以上
+ARC
 
 ## Installation
 
@@ -17,7 +17,7 @@ PhotoAlbum is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod "PhotoAlbum"
+pod 'PhotoAlbum', '~> 0.0.1'
 ```
 
 ## Author
