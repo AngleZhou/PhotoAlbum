@@ -5,7 +5,7 @@
 ## Example
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
-
+![pic](https://github.com/AngleZhou/PhotoAlbum/blob/master/DemoPic/1.pic.jpg)
 
 ## Requirements
 iOS 8.0及以上
