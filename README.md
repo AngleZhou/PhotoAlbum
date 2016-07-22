@@ -5,7 +5,10 @@
 ## Example
 
 To run the example project, clone the repo, and run `pod install` from the Example directory first.
-![pic](https://github.com/AngleZhou/PhotoAlbum/blob/master/DemoPic/1.pic.jpg)
+![pic](https://github.com/AngleZhou/PhotoAlbum/blob/master/DemoPic/1.jpg)
+![pic](https://github.com/AngleZhou/PhotoAlbum/blob/master/DemoPic/2.jpg)
+![pic](https://github.com/AngleZhou/PhotoAlbum/blob/master/DemoPic/3.jpg)
+![pic](https://github.com/AngleZhou/PhotoAlbum/blob/master/DemoPic/4.jpg)
 
 ## Requirements
 iOS 8.0及以上
