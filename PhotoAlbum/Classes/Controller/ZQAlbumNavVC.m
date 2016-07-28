@@ -25,7 +25,6 @@
 
 - (instancetype)initWithMaxImagesCount:(NSInteger)maxImagesCount type:(ZQAlbumType)type bSingleSelect:(BOOL)bSingleSelect {
 
-    if ([ZQPhotoFetcher authorizationStatusAuthorized]) {
         ZQAlbumListVC *lvc = [[ZQAlbumListVC alloc] init];
         lvc.type = type;
         lvc.bSingleSelection = bSingleSelect;
@@ -54,18 +53,6 @@
         };
         return self;
         
-    }
-    else {
-        ______WS();
-        UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"" message:_LocalizedString(@"OPERATE_PRIVACY") preferredStyle:(UIAlertControllerStyleAlert)];
-        UIAlertAction *ok = [UIAlertAction actionWithTitle:_LocalizedString(@"OPERATION_OK") style:(UIAlertActionStyleDefault) handler:^(UIAlertAction * _Nonnull action) {
-            [wSelf.presentingViewController dismissViewControllerAnimated:YES completion:nil];
-        }];
-        [alert addAction:ok];
-        [[ZQTools rootViewController] presentViewController:alert animated:YES completion:NULL];
-        return nil;
-    }
-    
 }
 
 
