@@ -10,6 +10,7 @@
 #import "ZQAlbumNavVC.h"
 #import <Photos/Photos.h>
 #import "ZQPhotoFetcher.h"
+#import "ZQTools.h"
 
 @implementation PhotoAlbums
 
@@ -24,7 +25,7 @@
         navVc.maxVideoDurationInSeconds = duration;
         navVc.updateUIFinishVideoPicking = uiUpdateBlock;
         navVc.didFinishPickingVideoHandle = didFinishPickingVideoHandle;
-        [[CTTools rootViewController] presentViewController:navVc animated:YES completion:nil];
+        [[ZQTools rootViewController] presentViewController:navVc animated:YES completion:nil];
     };
     
     [PhotoAlbums photoWithBlock:block];
@@ -49,7 +50,7 @@
         navVc.albumDelegate = delegate;
         navVc.bEnableCrop = bEnableCrop;
         navVc.didFinishPickingPhotosHandle = finishBlock;
-        [[CTTools rootViewController] presentViewController:navVc animated:YES completion:nil];
+        [[ZQTools rootViewController] presentViewController:navVc animated:YES completion:nil];
     };
     
     [PhotoAlbums photoWithBlock:block];
@@ -75,14 +76,14 @@
 }
 
 + (void)alertAction {
-    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"" message:_MultiLanguageFunc(@"TRIP_PHOTO_OPERATE_PRIVACY") preferredStyle:(UIAlertControllerStyleAlert)];
-    UIAlertAction *cancel = [UIAlertAction actionWithTitle:_MultiLanguageFunc(@"__key cancel") style:UIAlertActionStyleDefault handler:nil];
-    UIAlertAction *set = [UIAlertAction actionWithTitle:_MultiLanguageFunc(@"__key 设置") style:(UIAlertActionStyleDefault) handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertController *alert = [UIAlertController alertControllerWithTitle:@"" message:_LocalizedString(@"OPERATE_PRIVACY") preferredStyle:(UIAlertControllerStyleAlert)];
+    UIAlertAction *cancel = [UIAlertAction actionWithTitle:_LocalizedString(@"OPERATION_CANCEL") style:UIAlertActionStyleDefault handler:nil];
+    UIAlertAction *set = [UIAlertAction actionWithTitle:_LocalizedString(@"SETTING") style:(UIAlertActionStyleDefault) handler:^(UIAlertAction * _Nonnull action) {
         //go to setting page
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString:UIApplicationOpenSettingsURLString]];
     }];
     [alert addAction:cancel];
     [alert addAction:set];
-    [[CTTools rootViewController] presentViewController:alert animated:YES completion:NULL];
+    [[ZQTools rootViewController] presentViewController:alert animated:YES completion:NULL];
 }
 @end

@@ -20,7 +20,7 @@
 
 @interface PhotoAlbums : NSObject
 
-+ (void)photoWithMaxImagesCount:(NSInteger)maxImagesCount type:(CTAlbumType)type bSingleSelect:(BOOL)bSingleSelect crop:(BOOL)bEnableCrop delegate:(id)delegate didFinishPhotoBlock:(void (^)(NSArray<UIImage*> *photos))finishBlock;
++ (void)photoWithMaxImagesCount:(NSInteger)maxImagesCount type:(ZQAlbumType)type bSingleSelect:(BOOL)bSingleSelect crop:(BOOL)bEnableCrop delegate:(id)delegate didFinishPhotoBlock:(void (^)(NSArray<UIImage*> *photos))finishBlock;
 
 
 //single select

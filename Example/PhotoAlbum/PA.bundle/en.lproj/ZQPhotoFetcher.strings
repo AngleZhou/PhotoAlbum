@@ -19,6 +19,7 @@
 "OPERATION_SELECT"="Select";
 "OPERATION_OK"="OK";
 "OPERATE_PRIVACY"="Need to access your album in \"Settings\"->\"Privacy\"->\"Photos\"";
+"SETTING"="setting";
 "PHOTO"="Photo";
 "NO_PHOTOS"="No Photos or Videos";
 "OPERATION_PREVIEW"="Preview";
