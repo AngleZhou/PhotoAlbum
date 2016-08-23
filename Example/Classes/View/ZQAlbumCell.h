@@ -12,7 +12,6 @@
 
 static CGFloat kLineSpacing = 5;
 #define kAlbumCellWidth (kTPScreenWidth - kLineSpacing*3)/4
-#define kAlbumCellThumbWidth 15
 
 @class PHAsset;
 @class ZQAlbumCell;
@@ -33,5 +32,4 @@ static CGFloat kLineSpacing = 5;
 
 @property (nonatomic, weak) id<ZQAlbumCellDelegate> delegate;
 - (void)display:(NSIndexPath *)indexPath;
-- (void)displayThumb:(NSIndexPath *)indexPath;
 @end
