@@ -22,7 +22,7 @@
 
 static CGFloat kButtomBarHeight = 48;
 
-@interface ZQAlbumVC () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, ZQAlbumCellDelegate, ZQPhotoPreviewVCDelegate>
+@interface ZQAlbumVC () <UICollectionViewDelegate, UICollectionViewDataSource, UICollectionViewDelegateFlowLayout, ZQAlbumCellDelegate, ZQPhotoPreviewVCDelegate, UIScrollViewDelegate>
 @property (nonatomic, strong) UICollectionView *collectionView;
 @property (nonatomic, strong) ZQBottomToolbarView *tbButtom;
 
@@ -42,6 +42,10 @@ static CGFloat kButtomBarHeight = 48;
     [self loadData];
     
     [self scrollToBottom];
+}
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self p_loadVisibleCellImage];
 }
 - (void)scrollToBottom {
     if (self.models.count >= 1) {
@@ -144,7 +148,7 @@ static CGFloat kButtomBarHeight = 48;
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
     ZQAlbumCell *ce = (ZQAlbumCell *)cell;
     ce.cancelLoad = NO;
-    [ce display:indexPath];
+    [ce displayThumb:indexPath];
 }
 - (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
     ZQAlbumCell *ce = (ZQAlbumCell *)cell;
@@ -167,6 +171,24 @@ static CGFloat kButtomBarHeight = 48;
         [self.navigationController pushViewController:vc animated:YES];
     }
     
+}
+#pragma mark - UIScrollView Delegate
+//快速滚才会调这个
+- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+    [self p_loadVisibleCellImage];
+}
+//慢慢地滚调这个
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    [self p_loadVisibleCellImage];
+}
+
+#pragma mark - Private method
+
+- (void)p_loadVisibleCellImage {
+    NSArray *visibleCells = [self.collectionView visibleCells];
+    for (ZQAlbumCell *cell in visibleCells) {
+        [cell display:[self.collectionView indexPathForCell:cell]];
+    }
 }
 
 #pragma mark - ZQPhotoPreviewVC Delegate - 多选
