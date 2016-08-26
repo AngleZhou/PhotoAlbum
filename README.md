@@ -20,7 +20,7 @@ PhotoAlbum is available through [CocoaPods](http://cocoapods.org). To install
 it, simply add the following line to your Podfile:
 
 ```ruby
-pod 'PhotoAlbum', '~> 0.0.1'
+pod 'PhotoAlbum', '~> 0.2.0'
 ```
 
 ## Author
