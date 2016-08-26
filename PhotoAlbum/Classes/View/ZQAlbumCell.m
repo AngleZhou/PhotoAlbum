@@ -66,9 +66,16 @@
 
 
 - (void)display:(NSIndexPath *)indexPath {
+    [self display:indexPath width:kAlbumCellWidth];
+}
+- (void)displayThumb:(NSIndexPath *)indexPath {
+    [self display:indexPath width:kAlbumCellThumbWidth];
+}
+
+- (void)display:(NSIndexPath *)indexPath width:(CGFloat)width {
     __weak __typeof(&*self) wSelf = self;
     if (!self.cancelLoad && self.tag == indexPath.row) {
-        [ZQPhotoFetcher getPhotoFastWithAssets:self.model.asset photoWidth:kAlbumCellWidth completionHandler:^(UIImage *image, NSDictionary *info) {
+        [ZQPhotoFetcher getPhotoFastWithAssets:self.model.asset photoWidth:width completionHandler:^(UIImage * _Nullable image, NSDictionary * _Nullable info) {
             if (!wSelf.cancelLoad && wSelf.tag == indexPath.row) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     if (image) {

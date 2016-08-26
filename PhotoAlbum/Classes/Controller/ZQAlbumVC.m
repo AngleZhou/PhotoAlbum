@@ -43,6 +43,10 @@ static CGFloat kButtomBarHeight = 48;
     
     [self scrollToBottom];
 }
+- (void)viewDidAppear:(BOOL)animated {
+    [super viewDidAppear:animated];
+    [self p_loadVisibleCellImage];
+}
 - (void)scrollToBottom {
     if (self.models.count >= 1) {
         NSIndexPath *idxPath = [NSIndexPath indexPathForItem:self.models.count-1 inSection:0];
@@ -168,7 +172,6 @@ static CGFloat kButtomBarHeight = 48;
     }
     
 }
-
 #pragma mark - UIScrollView Delegate
 //快速滚才会调这个
 - (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
@@ -183,7 +186,7 @@ static CGFloat kButtomBarHeight = 48;
 
 - (void)p_loadVisibleCellImage {
     NSArray *visibleCells = [self.collectionView visibleCells];
-    for (CTAlbumCell *cell in visibleCells) {
+    for (ZQAlbumCell *cell in visibleCells) {
         [cell display:[self.collectionView indexPathForCell:cell]];
     }
 }
