@@ -38,6 +38,26 @@
                ReferencedContainer = "container:PhotoAlbum.xcodeproj">
             </BuildableReference>
          </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "B2F0C5481D7443D4005D469D"
+               BuildableName = "PhotoAlbumUITests.xctest"
+               BlueprintName = "PhotoAlbumUITests"
+               ReferencedContainer = "container:PhotoAlbum.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
+         <TestableReference
+            skipped = "NO">
+            <BuildableReference
+               BuildableIdentifier = "primary"
+               BlueprintIdentifier = "B2F0C55C1D745905005D469D"
+               BuildableName = "PhotoAlbum_ExampleUITests.xctest"
+               BlueprintName = "PhotoAlbum_ExampleUITests"
+               ReferencedContainer = "container:PhotoAlbum.xcodeproj">
+            </BuildableReference>
+         </TestableReference>
       </Testables>
       <MacroExpansion>
          <BuildableReference

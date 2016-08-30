@@ -80,6 +80,7 @@
         }
     }
 
+    //取系统相册
     PHFetchResult *smartAlbums;
     if (type == ZQAlbumTypeVideo) {
         smartAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeSmartAlbumVideos options:nil];
@@ -88,7 +89,7 @@
         smartAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
     }
     
-    //localizedTitle总是返回英文，可以直接比较title
+    //取相册的封面，照片数目，名字
     [smartAlbums enumerateObjectsUsingBlock:^(PHAssetCollection *collection, NSUInteger idx, BOOL * _Nonnull stop) {
         NSLog(@"%@", collection.localizedTitle);
         if (type == ZQAlbumTypePhoto && [collection.localizedTitle isEqualToString:_LocalizedString(@"Videos")]) {
@@ -120,15 +121,6 @@
             else if([collection.localizedTitle isEqualToString:_LocalizedString(@"All Photos")]) {
                 [albumArr insertObject:model atIndex:0];
             }
-            else if([collection.localizedTitle isEqualToString:_LocalizedString(@"Panoramas")]) {
-//                NSString* os_category = [ZQTools getDeviceCategroy];
-//                if ([[os_category lowercaseString] containsString:@"ipad"]) {
-//                    //ipad的话不加全景照片相册
-//                }
-//                else {
-                    [albumArr addObject:model];
-//                }
-            }
             else {
                 [albumArr addObject:model];
             }
@@ -136,8 +128,10 @@
         
     }];
     
+    //取其他自定义相册
     PHFetchResult *syncAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAny options:nil];
     [syncAlbums enumerateObjectsUsingBlock:^(PHAssetCollection *collection, NSUInteger idx, BOOL * _Nonnull stop) {
+        NSLog(@"%@", collection.localizedTitle);
         PHFetchResult *assets = [PHAsset fetchAssetsInAssetCollection:collection options:option];
         if (assets.count > 0) {
             ZQAlbumModel *model = [[ZQAlbumModel alloc] init];
