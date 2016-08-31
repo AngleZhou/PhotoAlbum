@@ -33,8 +33,18 @@
 }
 
 - (void)testSingleSelectPhoto {
-    XCUIApplication *application = [[XCUIApplication alloc] init];
-    [application.buttons[@"single select - photo"] tap];
+    XCUIApplication *app = [[XCUIApplication alloc] init];
+    [app.buttons[@"single select - photo"] tap];
+    
+    XCUIElementQuery *collectionView = app.collectionViews;
+    XCTAssert(CGRectContainsRect([collectionView elementBoundByIndex:0].frame, [collectionView.cells elementBoundByIndex:0].frame));
+}
+- (void)testMultiSelectPhoto {
+    XCUIApplication *app = [[XCUIApplication alloc] init];
+    [app.buttons[@"multi select - photo"] tap];
+    
+    XCUIElementQuery *collectionView = app.collectionViews;
+    XCTAssert(CGRectContainsRect([collectionView.cells elementBoundByIndex:0].frame, [collectionView.cells elementBoundByIndex:0].images[@"select"].frame));
 }
 
 @end
