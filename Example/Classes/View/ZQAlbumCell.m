@@ -75,7 +75,7 @@
 - (void)display:(NSIndexPath *)indexPath width:(CGFloat)width {
     __weak __typeof(&*self) wSelf = self;
     if (!self.cancelLoad && self.tag == indexPath.row) {
-        [ZQPhotoFetcher getPhotoFastWithAssets:self.model.asset photoWidth:width completionHandler:^(UIImage * _Nullable image, NSDictionary * _Nullable info) {
+        self.model.requestID = [ZQPhotoFetcher getPhotoFastWithAssets:self.model.asset photoWidth:width completionHandler:^(UIImage * _Nullable image, NSDictionary * _Nullable info) {
             if (!wSelf.cancelLoad && wSelf.tag == indexPath.row) {
                 dispatch_async(dispatch_get_main_queue(), ^{
                     if (image) {
@@ -92,5 +92,11 @@
     self.imageView.image = nil;
     self.cancelLoad = YES;
     self.model = nil;
+}
+
+- (void)setCancelLoad:(BOOL)cancelLoad {
+    _cancelLoad = cancelLoad;
+    [ZQPhotoFetcher cancelRequest:self.model.requestID];
+    //    NSLog(@"%zd cancelled!!!!!", self.model.requestID);
 }
 @end

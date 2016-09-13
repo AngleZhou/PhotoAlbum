@@ -168,37 +168,37 @@
 
 #pragma mark - 获取单张照片
 
-+ (void)getAlbumCoverFromAlbum:(ZQAlbumModel *_Nonnull)collection completion:(void(^_Nonnull)(UIImage * _Nullable image, NSDictionary * _Nullable info))completion {
++ (PHImageRequestID)getAlbumCoverFromAlbum:(ZQAlbumModel *_Nonnull)collection completion:(void(^_Nonnull)(UIImage * _Nullable image, NSDictionary * _Nullable info))completion {
     PHAsset *lastPhoto = [(PHFetchResult *)collection.fetchResult lastObject];
-    [self getPhotoFastWithAssets:lastPhoto photoWidth:80 completionHandler:completion];
+    return [self getPhotoFastWithAssets:lastPhoto photoWidth:80 completionHandler:completion];
 }
-+ (void)getPhotoFastWithAssets:(PHAsset *_Nonnull)asset photoWidth:(CGFloat)photoWidth completionHandler:(void (^_Nonnull)(UIImage * _Nullable image, NSDictionary * _Nullable info))completion {
++ (PHImageRequestID)getPhotoFastWithAssets:(PHAsset *_Nonnull)asset photoWidth:(CGFloat)photoWidth completionHandler:(void (^_Nonnull)(UIImage * _Nullable image, NSDictionary * _Nullable info))completion {
     PHImageRequestOptions *option = [PHImageRequestOptions new];
     option.deliveryMode = PHImageRequestOptionsDeliveryModeOpportunistic;
     option.resizeMode = PHImageRequestOptionsResizeModeExact;//fast 200*200
-    [self getPhotoWithAssets:asset photoWidth:photoWidth completionHandler:completion option:option];
+    return [self getPhotoWithAssets:asset photoWidth:photoWidth completionHandler:completion option:option];
 }
 
 
 //Default deliveryMode is PHImageRequestOptionsDeliveryModeOpportunistic. resultHandler may be called synchronously on the calling thread if any image data is immediately available. If the image data returned in this first pass is of insufficient quality, resultHandler will be called again, asychronously on the main thread at a later time with the "correct" results. If the request is cancelled, resultHandler may not be called at all.
 
 //返回的是原图，原始大小，960*1280
-+ (void)getPhotoWithAssets:(PHAsset *_Nonnull)asset photoWidth:(CGFloat)photoWidth completionHandler:(void (^_Nonnull)(UIImage * _Nullable image, NSDictionary * _Nullable info))completion {
++ (PHImageRequestID)getPhotoWithAssets:(PHAsset *_Nonnull)asset photoWidth:(CGFloat)photoWidth completionHandler:(void (^_Nonnull)(UIImage * _Nullable image, NSDictionary * _Nullable info))completion {
     //option为nil时返回的是原图
-    [self getPhotoWithAssets:asset photoWidth:photoWidth completionHandler:completion option:nil];
+    return [self getPhotoWithAssets:asset photoWidth:photoWidth completionHandler:completion option:nil];
 }
 
 
 
 
-+ (void)getPhotoWithAssets:(PHAsset *)asset photoWidth:(CGFloat)photoWidth completionHandler:(void(^)(UIImage *image, NSDictionary *info))completion option:(PHImageRequestOptions *)option {
++ (PHImageRequestID)getPhotoWithAssets:(PHAsset *)asset photoWidth:(CGFloat)photoWidth completionHandler:(void(^)(UIImage *image, NSDictionary *info))completion option:(PHImageRequestOptions *)option {
     PHAsset *phAsset = (PHAsset *)asset;
     CGFloat aspectRatio = phAsset.pixelWidth / (CGFloat)phAsset.pixelHeight;
     CGFloat multiple = 2;//[UIScreen mainScreen].scale;
     CGFloat pixelWidth = photoWidth * multiple;
     CGFloat pixelHeight = pixelWidth / aspectRatio;
     
-    [[PHImageManager defaultManager] requestImageForAsset:phAsset targetSize:CGSizeMake(pixelWidth, pixelHeight) contentMode:(PHImageContentModeAspectFit) options:option resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+    PHImageRequestID requestID = [[PHImageManager defaultManager] requestImageForAsset:phAsset targetSize:CGSizeMake(pixelWidth, pixelHeight) contentMode:(PHImageContentModeAspectFit) options:option resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
         BOOL downloadFinined = (![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey]);
         if (downloadFinined) {
             if (completion) {
@@ -221,7 +221,14 @@
             }];
         }
     }];
+    
+    return requestID;
 }
+
++ (void)cancelRequest:(PHImageRequestID)requestID {
+    [[PHImageManager defaultManager] cancelImageRequest:requestID];
+}
+
 + (UIImage *)scaleImage:(UIImage *)image toSize:(CGSize)size {
     UIGraphicsBeginImageContext(size);
     [image drawInRect:CGRectMake(0, 0, size.width, size.height)];
@@ -233,12 +240,13 @@
 
 #pragma mark - Video
 
-+ (void)getVideoWithAssets:(PHAsset *_Nonnull)asset completionHandler:(void(^_Nullable)(AVPlayerItem * _Nullable playerItem, NSDictionary * _Nullable info))completion {
-    [[PHImageManager defaultManager] requestPlayerItemForVideo:asset options:nil resultHandler:^(AVPlayerItem * _Nullable playerItem, NSDictionary * _Nullable info) {
++ (PHImageRequestID)getVideoWithAssets:(PHAsset *_Nonnull)asset completionHandler:(void(^_Nullable)(AVPlayerItem * _Nullable playerItem, NSDictionary * _Nullable info))completion {
+    PHImageRequestID requestID = [[PHImageManager defaultManager] requestPlayerItemForVideo:asset options:nil resultHandler:^(AVPlayerItem * _Nullable playerItem, NSDictionary * _Nullable info) {
         if (completion) {
             completion(playerItem, info);
         }
     }];
+    return requestID;
 }
 
 + (void)exportVideoDegradedWithAssets:(PHAsset *_Nonnull)asset progress:(void(^)(CGFloat progress))progressBlock completionHandler:(void(^_Nullable)(AVAsset* _Nullable playerAsset, NSDictionary* _Nullable info, NSURL* _Nullable url))completion {

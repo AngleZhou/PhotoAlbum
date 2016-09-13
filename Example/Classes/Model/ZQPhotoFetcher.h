@@ -28,18 +28,25 @@
 + (void)getAllPhotosInAlbum:(ZQAlbumModel *_Nonnull)collection completion:(void(^_Nonnull)(NSArray<ZQPhotoModel*>* _Nonnull photos))completion;
 
 //获取一个相册的封面，默认最后一张作为封面, completion中返回image和image的信息
-+ (void)getAlbumCoverFromAlbum:(ZQAlbumModel *_Nonnull)collection completion:(void(^_Nonnull)(UIImage * _Nullable image, NSDictionary * _Nullable info))completion;
++ (PHImageRequestID)getAlbumCoverFromAlbum:(ZQAlbumModel *_Nonnull)collection completion:(void(^_Nonnull)(UIImage * _Nullable image, NSDictionary * _Nullable info))completion;
 
 //快速获取一张照片(按指定的尺寸、图片质量获取)
-+ (void)getPhotoFastWithAssets:(PHAsset *_Nonnull)asset photoWidth:(CGFloat)photoWidth completionHandler:(void (^_Nonnull)(UIImage * _Nullable image, NSDictionary * _Nullable info))completion;
++ (PHImageRequestID)getPhotoFastWithAssets:(PHAsset *_Nonnull)asset photoWidth:(CGFloat)photoWidth completionHandler:(void (^_Nonnull)(UIImage * _Nullable image, NSDictionary * _Nullable info))completion;
 
 //默认的方式获取一张照片,加载的大图都是360*360的尺寸，取的是原始图片
-+ (void)getPhotoWithAssets:(PHAsset *_Nonnull)asset photoWidth:(CGFloat)photoWidth completionHandler:(void (^_Nonnull)(UIImage * _Nullable image, NSDictionary * _Nullable info))completion;
++ (PHImageRequestID)getPhotoWithAssets:(PHAsset *_Nonnull)asset photoWidth:(CGFloat)photoWidth completionHandler:(void (^_Nonnull)(UIImage * _Nullable image, NSDictionary * _Nullable info))completion;
 
 //获取一个视频
-+ (void)getVideoWithAssets:(PHAsset *_Nonnull)asset completionHandler:(void(^_Nullable)(AVPlayerItem * _Nullable playerItem, NSDictionary * _Nullable info))completion;
++ (PHImageRequestID)getVideoWithAssets:(PHAsset *_Nonnull)asset completionHandler:(void(^_Nullable)(AVPlayerItem * _Nullable playerItem, NSDictionary * _Nullable info))completion;
 
 //上传
 + (void)exportVideoDegradedWithAssets:(PHAsset *_Nonnull)asset progress:(void(^_Nullable)(CGFloat progress))progressBlock completionHandler:(void(^_Nullable)(AVAsset* _Nullable playerAsset, NSDictionary* _Nullable info, NSURL* _Nullable url))completion;
+
+/**
+ *  取消一个request
+ *
+ *  @param requestID 请求时返回的requestID
+ */
++ (void)cancelRequest:(PHImageRequestID)requestID;
 
 @end

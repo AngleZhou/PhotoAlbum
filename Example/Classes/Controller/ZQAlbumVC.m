@@ -30,6 +30,11 @@ static CGFloat kButtomBarHeight = 48;
 @property (nonatomic, strong) NSMutableArray<NSIndexPath *> *selectedIdx;//selection changed cell
 @property (nonatomic, strong) NSArray<PHAsset *> *assets;
 @property (nonatomic, strong) NSArray<ZQPhotoModel *> *models;
+
+//for scrollView
+@property (nonatomic, assign) CGPoint lastOffset;
+@property (nonatomic, assign) NSTimeInterval lastOffsetCapture;
+@property (nonatomic, assign) BOOL isScrollingFast;
 @end
 @implementation ZQAlbumVC
 
@@ -173,10 +178,31 @@ static CGFloat kButtomBarHeight = 48;
     
 }
 #pragma mark - UIScrollView Delegate
-//快速滚才会调这个
-- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
-    [self p_loadVisibleCellImage];
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    CGPoint currentOffset = scrollView.contentOffset;
+    NSTimeInterval currentTime = [NSDate timeIntervalSinceReferenceDate];
+    
+    NSTimeInterval timeDiff = currentTime - self.lastOffsetCapture;
+    if (timeDiff > 0.1) {
+        CGFloat distance = currentOffset.y - self.lastOffset.y;
+        CGFloat scrollSpeed = fabs((distance*10)/1000);
+        
+        if (scrollSpeed > 0.5) {
+            self.isScrollingFast = YES;
+        }
+        else {
+            self.isScrollingFast = NO;
+            [self p_loadVisibleCellImage];
+        }
+        self.lastOffset = currentOffset;
+        self.lastOffsetCapture = currentTime;
+    }
 }
+////快速滚才会调这个
+//- (void)scrollViewDidEndDecelerating:(UIScrollView *)scrollView {
+//    [self p_loadVisibleCellImage];
+//}
 //慢慢地滚调这个
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
     [self p_loadVisibleCellImage];
