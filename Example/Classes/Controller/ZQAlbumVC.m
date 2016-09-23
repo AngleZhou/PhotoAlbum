@@ -35,6 +35,9 @@ static CGFloat kButtomBarHeight = 48;
 @property (nonatomic, assign) CGPoint lastOffset;
 @property (nonatomic, assign) NSTimeInterval lastOffsetCapture;
 @property (nonatomic, assign) BOOL isScrollingFast;
+
+@property (nonatomic, strong) NSCache *cache;
+
 @end
 @implementation ZQAlbumVC
 
@@ -52,6 +55,11 @@ static CGFloat kButtomBarHeight = 48;
     [super viewDidAppear:animated];
     [self p_loadVisibleCellImage];
 }
+
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    [self.cache removeAllObjects];
+}
 - (void)scrollToBottom {
     if (self.models.count >= 1) {
         NSIndexPath *idxPath = [NSIndexPath indexPathForItem:self.models.count-1 inSection:0];
@@ -64,7 +72,6 @@ static CGFloat kButtomBarHeight = 48;
     if (contentHeight > frameHeightWithoutInset) {
         [self.collectionView setContentOffset:CGPointMake(0, contentHeight-self.collectionView.frame.size.height) animated:NO];
     }
-    
 }
 
 - (void)initUI {
@@ -153,7 +160,7 @@ static CGFloat kButtomBarHeight = 48;
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
     ZQAlbumCell *ce = (ZQAlbumCell *)cell;
     ce.cancelLoad = NO;
-    [ce displayThumb:indexPath];
+    [ce displayThumb:indexPath cache:self.cache];
 }
 - (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
     ZQAlbumCell *ce = (ZQAlbumCell *)cell;
@@ -188,7 +195,7 @@ static CGFloat kButtomBarHeight = 48;
         CGFloat distance = currentOffset.y - self.lastOffset.y;
         CGFloat scrollSpeed = fabs((distance*10)/1000);
         
-        if (scrollSpeed > 0.5) {
+        if (scrollSpeed > 0.4) {
             self.isScrollingFast = YES;
         }
         else {
@@ -213,7 +220,8 @@ static CGFloat kButtomBarHeight = 48;
 - (void)p_loadVisibleCellImage {
     NSArray *visibleCells = [self.collectionView visibleCells];
     for (ZQAlbumCell *cell in visibleCells) {
-        [cell display:[self.collectionView indexPathForCell:cell]];
+//        [cell display:[self.collectionView indexPathForCell:cell]];
+        [cell display:[self.collectionView indexPathForCell:cell] cache:self.cache];
     }
 }
 
@@ -265,7 +273,13 @@ static CGFloat kButtomBarHeight = 48;
 }
 
 
-
+- (NSCache *)cache {
+    if (!_cache) {
+        _cache = [[NSCache alloc] init];
+        _cache.totalCostLimit = cacheLimit;
+    }
+    return _cache;
+}
 
 
 @end

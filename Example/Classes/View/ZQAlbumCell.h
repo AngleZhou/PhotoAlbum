@@ -10,7 +10,7 @@
 #import "ZQPhotoModel.h"
 #import "Typedefs.h"
 
-static CGFloat kLineSpacing = 5;
+static CGFloat kLineSpacing = 2;
 #define kAlbumCellWidth (kTPScreenWidth - kLineSpacing*3)/4
 #define kAlbumCellThumbWidth 15
 
@@ -32,6 +32,7 @@ static CGFloat kLineSpacing = 5;
 @property (nonatomic, assign) ZQAlbumType type;
 
 @property (nonatomic, weak) id<ZQAlbumCellDelegate> delegate;
-- (void)display:(NSIndexPath *)indexPath;
-- (void)displayThumb:(NSIndexPath *)indexPath;
+
+- (void)display:(NSIndexPath *)indexPath cache:(NSCache *)cache;
+- (void)displayThumb:(NSIndexPath *)indexPath cache:(NSCache *)cache;
 @end

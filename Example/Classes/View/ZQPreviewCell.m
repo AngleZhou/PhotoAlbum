@@ -62,17 +62,25 @@
 }
 
 
-- (void)display:(BOOL)bSingleSelect {
+- (void)display:(BOOL)bSingleSelect cache:(NSCache *)cache indexPath:(NSIndexPath *)indexPath {
     ______WS();
-    [ZQPhotoFetcher getPhotoFastWithAssets:self.mPhoto.asset photoWidth:kTPScreenWidth completionHandler:^(UIImage *image, NSDictionary *info) {
-        dispatch_async(dispatch_get_main_queue(), ^{
-            if (image) {
-                wSelf.ivPhoto.image = image;
-                [wSelf autouLayoutImageView:bSingleSelect];
-            }
-            
-        });
-    }];
+    UIImage *image = [cache objectForKey:indexPath];
+    if (image) {
+        self.ivPhoto.image = image;
+    }
+    else {
+        self.mPhoto.requestID = [ZQPhotoFetcher getPhotoFastWithAssets:self.mPhoto.asset photoWidth:kTPScreenWidth completionHandler:^(UIImage *image, NSDictionary *info) {
+            dispatch_async(dispatch_get_main_queue(), ^{
+                if (image) {
+                    wSelf.ivPhoto.image = image;
+                    [cache setObject:image forKey:indexPath];
+                    [wSelf autouLayoutImageView:bSingleSelect];
+                }
+                
+            });
+        }];
+    }
+    
 }
 
 - (void)singleTap:(UITapGestureRecognizer *)tap {
@@ -207,5 +215,10 @@
         
         return CGRectMake(0, topLeftY, imageView.frame.size.width, height);
     }
+}
+
+- (void)prepareForReuse {
+    [ZQPhotoFetcher cancelRequest:self.mPhoto.requestID];
+    self.mPhoto = nil;
 }
 @end

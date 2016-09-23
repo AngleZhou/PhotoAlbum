@@ -13,6 +13,7 @@
 #define HEXCOLORA(rgbValue, a) [UIColor colorWithRed:((float)((rgbValue & 0xFF0000) >> 16)) / 255.0 green:((float)((rgbValue & 0xFF00) >> 8)) / 255.0 blue:((float)(rgbValue & 0xFF)) / 255.0 alpha:a]
 #define HEXCOLOR(rgbValue) HEXCOLORA(rgbValue, 1.0)
 
+#define cacheLimit 50*1024*1024 //50M
 
 //其他颜色：线条，不可用等
 #define ZQColorOther       HEXCOLOR(0xded8d7)

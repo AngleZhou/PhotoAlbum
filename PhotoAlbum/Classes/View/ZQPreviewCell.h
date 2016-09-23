@@ -16,6 +16,6 @@
 @property (nonatomic, strong) UIImageView *ivPhoto;
 @property (nonatomic, strong) UIScrollView *scrollView;
 
-- (void)display:(BOOL)bSingleSelect;
 - (UIImage *)crop:(CGRect)rect;
+- (void)display:(BOOL)bSingleSelect cache:(NSCache *)cache indexPath:(NSIndexPath *)indexPath;
 @end

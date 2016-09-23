@@ -18,6 +18,7 @@
 @property (weak, nonatomic) IBOutlet UIView *vVideoMask;
 
 @property (nonatomic, strong) UIButton *vTap;
+
 @end
 
 @implementation ZQAlbumCell
@@ -65,25 +66,34 @@
 }
 
 
-- (void)display:(NSIndexPath *)indexPath {
-    [self display:indexPath width:kAlbumCellWidth];
-}
-- (void)displayThumb:(NSIndexPath *)indexPath {
-    [self display:indexPath width:kAlbumCellThumbWidth];
-}
 
-- (void)display:(NSIndexPath *)indexPath width:(CGFloat)width {
+- (void)display:(NSIndexPath *)indexPath cache:(NSCache *)cache {
+    [self display:indexPath width:kAlbumCellWidth cache:cache];
+}
+- (void)displayThumb:(NSIndexPath *)indexPath cache:(NSCache *)cache {
+    [self display:indexPath width:kAlbumCellThumbWidth cache:cache];
+}
+- (void)display:(NSIndexPath *)indexPath width:(CGFloat)width cache:(NSCache *)cache {
     __weak __typeof(&*self) wSelf = self;
     if (!self.cancelLoad && self.tag == indexPath.row) {
-        self.model.requestID = [ZQPhotoFetcher getPhotoFastWithAssets:self.model.asset photoWidth:width completionHandler:^(UIImage * _Nullable image, NSDictionary * _Nullable info) {
-            if (!wSelf.cancelLoad && wSelf.tag == indexPath.row) {
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    if (image) {
-                        wSelf.imageView.image = image;
-                    }
-                });
-            }
-        }];
+        UIImage *image = [cache objectForKey:indexPath];
+        if (image) {
+            self.imageView.image = image;
+        }
+        else {
+            self.model.requestID = [ZQPhotoFetcher getPhotoFastWithAssets:self.model.asset photoWidth:width completionHandler:^(UIImage * _Nullable image, NSDictionary * _Nullable info) {
+                if (!wSelf.cancelLoad && wSelf.tag == indexPath.row) {
+                    dispatch_async(dispatch_get_main_queue(), ^{
+                        if (image) {
+                            wSelf.imageView.image = image;
+                            [cache setObject:image forKey:indexPath cost:image.size.width*image.size.height];
+                        }
+                    });
+                }
+            }];
+        }
+        
+        
     }
 }
 

@@ -30,6 +30,8 @@
 @property (nonatomic, strong) UIButton *btnCancel;
 @property (nonatomic, strong) UIButton *btnSelectBotm;
 
+@property (nonatomic, strong) NSCache *cache;
+
 @end
 
 @implementation ZQPhotoPreviewVC
@@ -40,6 +42,10 @@
     [super viewDidLoad];
     
     [self initUI];
+}
+- (void)didReceiveMemoryWarning {
+    [super didReceiveMemoryWarning];
+    [self.cache removeAllObjects];
 }
 
 - (void)initUI {
@@ -209,7 +215,7 @@
 
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
     ZQPreviewCell *c = (ZQPreviewCell *)cell;
-    [c display:self.bSingleSelect];
+    [c display:self.bSingleSelect cache:self.cache indexPath:indexPath];
     self.btnSelect.selected = c.mPhoto.bSelected;
 }
 
@@ -224,6 +230,14 @@
 
 }
 
+#pragma mark - Getter
 
+- (NSCache *)cache {
+    if (!_cache) {
+        _cache = [[NSCache alloc] init];
+        _cache.totalCostLimit = cacheLimit;
+    }
+    return _cache;
+}
 
 @end
