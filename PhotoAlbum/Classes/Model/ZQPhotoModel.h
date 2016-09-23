@@ -15,5 +15,6 @@
 @property (nonatomic, strong) NSData *data;
 @property (nonatomic, assign) NSTimeInterval duration;
 @property (nonatomic, assign) BOOL bSelected;
+@property (nonatomic, assign) int32_t requestID;
 //@property (nonatomic, strong) UIImage *videoCoverImage;
 @end

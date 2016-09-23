@@ -11,6 +11,7 @@
 #import "ZQPublic.h"
 #import "ZQAlbumNavVC.h"
 
+
 @interface ZQAlbumCell ()
 @property (weak, nonatomic) IBOutlet UIImageView *imageView;
 @property (weak, nonatomic) IBOutlet UIImageView *ivSelect;
