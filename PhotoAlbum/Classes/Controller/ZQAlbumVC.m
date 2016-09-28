@@ -36,6 +36,7 @@ static CGFloat kButtomBarHeight = 48;
 @property (nonatomic, assign) NSTimeInterval lastOffsetCapture;
 @property (nonatomic, assign) BOOL isScrollingFast;
 
+@property (nonatomic, strong) NSCache *cacheThumb;
 @property (nonatomic, strong) NSCache *cache;
 
 @end
@@ -59,6 +60,7 @@ static CGFloat kButtomBarHeight = 48;
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     [self.cache removeAllObjects];
+    [self.cacheThumb removeAllObjects];
 }
 - (void)scrollToBottom {
     if (self.models.count >= 1) {
@@ -160,7 +162,7 @@ static CGFloat kButtomBarHeight = 48;
 - (void)collectionView:(UICollectionView *)collectionView willDisplayCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
     ZQAlbumCell *ce = (ZQAlbumCell *)cell;
     ce.cancelLoad = NO;
-    [ce displayThumb:indexPath cache:self.cache];
+    [ce displayThumb:indexPath cache:self.cacheThumb];
 }
 - (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
     ZQAlbumCell *ce = (ZQAlbumCell *)cell;
@@ -280,6 +282,12 @@ static CGFloat kButtomBarHeight = 48;
     }
     return _cache;
 }
-
+- (NSCache *)cacheThumb {
+    if (!_cacheThumb) {
+        _cacheThumb = [[NSCache alloc] init];
+        _cacheThumb.totalCostLimit = cacheThumbLimit;
+    }
+    return _cacheThumb;
+}
 
 @end

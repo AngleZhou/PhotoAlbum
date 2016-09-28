@@ -14,6 +14,7 @@
 #define HEXCOLOR(rgbValue) HEXCOLORA(rgbValue, 1.0)
 
 #define cacheLimit 50*1024*1024 //50M
+#define cacheThumbLimit 20*1024*1024 //20M
 
 //其他颜色：线条，不可用等
 #define ZQColorOther       HEXCOLOR(0xded8d7)
