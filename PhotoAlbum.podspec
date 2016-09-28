@@ -1,6 +1,6 @@
 Pod::Spec.new do |s|
   s.name             = 'PhotoAlbum'
-  s.version          = '0.4.0'
+  s.version          = '0.5.0'
   s.summary          = 'A PhotoAlbum which supports multi-Photo selection, single-Photo selection, video.'
   s.homepage         = 'https://github.com/AngleZhou/PhotoAlbum'
   s.license          = { :type => 'MIT', :file => 'LICENSE' }
