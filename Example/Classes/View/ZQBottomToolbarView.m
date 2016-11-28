@@ -184,7 +184,7 @@
                         }
                         
                     }
-                    else if ([[info objectForKey:PHImageResultIsDegradedKey] integerValue] == 0) {
+                    else {
                         if (image) {//可能为nil
                             [results setObject:image forKey:[info objectForKey:PHImageResultRequestIDKey]];
                         }
