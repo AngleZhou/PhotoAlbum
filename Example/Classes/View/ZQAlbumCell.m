@@ -26,10 +26,11 @@
 
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
     self.frame = CGRectMake(0, 0, kAlbumCellWidth, kAlbumCellWidth);
     self.imageView.contentMode = UIViewContentModeScaleAspectFill;
     self.imageView.layer.masksToBounds = YES;
-    
+
     UIImage *image = _image(@"photo_def_photoPickerVC");
     self.ivSelect.image = image;
     CGFloat vTapWidth = image.size.width*2;

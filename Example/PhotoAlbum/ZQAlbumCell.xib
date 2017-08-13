@@ -1,8 +1,12 @@
-<?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="10117" systemVersion="15G31" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES">
+<?xml version="1.0" encoding="UTF-8"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="12121" systemVersion="16F73" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" useTraitCollections="YES" colorMatched="YES">
+    <device id="retina4_7" orientation="portrait">
+        <adaptation id="fullscreen"/>
+    </device>
     <dependencies>
         <deployment identifier="iOS"/>
-        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="10085"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="12089"/>
+        <capability name="documents saved in the Xcode 8 format" minToolsVersion="8.0"/>
     </dependencies>
     <objects>
         <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner"/>
@@ -16,9 +20,9 @@
                 <subviews>
                     <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" translatesAutoresizingMaskIntoConstraints="NO" id="vRa-kc-TwT">
                         <rect key="frame" x="0.0" y="0.0" width="100" height="100"/>
-                        <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                        <color key="backgroundColor" red="0.66666666666666663" green="0.66666666666666663" blue="0.66666666666666663" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                     </imageView>
-                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="photo_def_photoPickerVC.png" translatesAutoresizingMaskIntoConstraints="NO" id="JdE-jI-pMq">
+                    <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="PA.bundle/images/photo_def_photoPickerVC.png" translatesAutoresizingMaskIntoConstraints="NO" id="JdE-jI-pMq">
                         <rect key="frame" x="71" y="2" width="27" height="27"/>
                         <accessibility key="accessibilityConfiguration" identifier="select"/>
                         <constraints>
@@ -32,14 +36,14 @@
                             <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="00:00" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="cby-RI-mYD">
                                 <rect key="frame" x="63" y="0.0" width="31.5" height="17"/>
                                 <fontDescription key="fontDescription" type="system" pointSize="11"/>
-                                <color key="textColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                                <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
                                 <nil key="highlightedColor"/>
                             </label>
-                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="VideoSendIcon.png" translatesAutoresizingMaskIntoConstraints="NO" id="TPJ-W8-3hO">
-                                <rect key="frame" x="5" y="0.0" width="17" height="17"/>
+                            <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="PA.bundle/images/VideoSendIcon.png" translatesAutoresizingMaskIntoConstraints="NO" id="TPJ-W8-3hO">
+                                <rect key="frame" x="5" y="0.0" width="16" height="17"/>
                             </imageView>
                         </subviews>
-                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.69999999999999996" colorSpace="calibratedRGB"/>
+                        <color key="backgroundColor" red="0.0" green="0.0" blue="0.0" alpha="0.69999999999999996" colorSpace="custom" customColorSpace="sRGB"/>
                         <constraints>
                             <constraint firstItem="TPJ-W8-3hO" firstAttribute="leading" secondItem="KXA-qL-oAp" secondAttribute="leading" constant="5" id="L0p-xt-7Bd"/>
                             <constraint firstAttribute="height" constant="17" id="Zed-b6-0VC"/>
@@ -51,7 +55,6 @@
                         </constraints>
                     </view>
                 </subviews>
-                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
             </view>
             <constraints>
                 <constraint firstItem="vRa-kc-TwT" firstAttribute="top" secondItem="9SS-tp-Odg" secondAttribute="top" id="1Qk-wk-38S"/>
@@ -75,7 +78,7 @@
         </collectionViewCell>
     </objects>
     <resources>
-        <image name="VideoSendIcon.png" width="17" height="17"/>
-        <image name="photo_def_photoPickerVC.png" width="27" height="27"/>
+        <image name="PA.bundle/images/VideoSendIcon.png" width="16" height="16"/>
+        <image name="PA.bundle/images/photo_def_photoPickerVC.png" width="16" height="16"/>
     </resources>
 </document>
