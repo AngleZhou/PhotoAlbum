@@ -27,6 +27,7 @@
 
 - (void)awakeFromNib {
     [super awakeFromNib];
+    
     self.frame = CGRectMake(0, 0, kAlbumCellWidth, kAlbumCellWidth);
     self.imageView.contentMode = UIViewContentModeScaleAspectFill;
     self.imageView.layer.masksToBounds = YES;
@@ -38,7 +39,6 @@
     [self.vTap addTarget:self action:@selector(tapppp) forControlEvents:(UIControlEventTouchUpInside)];
     [self.contentView addSubview:self.vTap];
     self.vTap.backgroundColor = [UIColor clearColor];
-    
 }
 
 - (void)tapppp {

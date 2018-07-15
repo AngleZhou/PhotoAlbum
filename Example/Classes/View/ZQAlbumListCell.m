@@ -38,7 +38,7 @@
     _model = model;
     UIFont *font = [UIFont systemFontOfSize:16];
     NSMutableAttributedString *nameString = [[NSMutableAttributedString alloc] initWithString:model.name attributes:@{NSFontAttributeName:font, NSForegroundColorAttributeName:[UIColor blackColor]}];
-    NSAttributedString *countString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"  (%zd)", model.count] attributes:@{NSFontAttributeName:font, NSForegroundColorAttributeName:[UIColor lightGrayColor]}];
+    NSAttributedString *countString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"  (%ld)", (unsigned long)model.count] attributes:@{NSFontAttributeName:font, NSForegroundColorAttributeName:[UIColor lightGrayColor]}];
     [nameString appendAttributedString:countString];
     self.lblTitle.attributedText = nameString;
     __weak __typeof(&*self) wSelf = self;

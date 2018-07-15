@@ -8,11 +8,13 @@
 
 #import <UIKit/UIKit.h>
 
+typedef void(^SingleTapBlock)();
+
 @class PHAsset;
 @class ZQPhotoModel;
 @interface ZQPreviewCell : UICollectionViewCell
 @property (nonatomic, strong) ZQPhotoModel *mPhoto;
-@property (nonatomic, strong) void(^singleTapBlock)();
+@property (nonatomic,   copy) SingleTapBlock singleTapBlock;
 @property (nonatomic, strong) UIImageView *ivPhoto;
 @property (nonatomic, strong) UIScrollView *scrollView;
 
