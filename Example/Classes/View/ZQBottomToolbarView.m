@@ -169,27 +169,26 @@
     }
 
     
-    NSMutableDictionary *results = [[NSMutableDictionary alloc] init];
+//    NSMutableDictionary *results = [[NSMutableDictionary alloc] init];
+    NSMutableArray *resultImg = [NSMutableArray new];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         __block dispatch_group_t group = dispatch_group_create();
         for (int i=0; i<wSelf.selections.count; i++) {
             dispatch_group_enter(group);
             ZQPhotoModel *model = wSelf.selections[i];
 
+            //先调一次返回小图，再调一次返回大图
             [ZQPhotoFetcher getPhotoWithAssets:model.asset photoWidth:kTPScreenWidth completion:^(UIImage *image, NSDictionary *info) {
+                NSLog(@"isMain: %d", [NSThread isMainThread]);
                 if (info) {
-                    if ([[info objectForKey:PHImageResultIsDegradedKey] integerValue] == 1) {
-                        if (image) {
-                            [results setObject:image forKey:[info objectForKey:PHImageResultRequestIDKey]];
-                        }
-                        
-                    }
-                    else {
+                    //只存大图，可能没有requestID，但是有图
+                    if ([[info objectForKey:PHImageResultIsDegradedKey] integerValue] == 0) {
                         if (image) {//可能为nil
-                            [results setObject:image forKey:[info objectForKey:PHImageResultRequestIDKey]];
+                            [resultImg addObject:image];
                         }
                         dispatch_group_leave(group);
                     }
+                    
                 }
                 else {
                     //info也没有是什么情况
@@ -205,7 +204,8 @@
             ZQAlbumNavVC *nav = (ZQAlbumNavVC *)vc.navigationController;
             [nav dismissViewControllerAnimated:YES completion:^{
                 if (nav.didFinishPickingPhotosHandle) {
-                    NSArray *images = [results allValues];
+//                    NSArray *images = [results allValues];
+                    NSArray *images = resultImg;
                     if (images.count == 0) {
                         NSString *msg = _LocalizedString(@"FETCH_PHOTO_ERROR");
                         UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:msg preferredStyle:(UIAlertControllerStyleAlert)];

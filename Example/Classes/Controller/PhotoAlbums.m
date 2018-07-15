@@ -33,17 +33,39 @@
 
 
 //multi-select
-+ (void)photoMultiSelectWithMaxImagesCount:(NSInteger)maxImagesCount delegate:(id)delegate didFinishPhotoBlock:(void (^)(NSArray<UIImage*> *photos))finishBlock {
-    [PhotoAlbums photoWithMaxImagesCount:maxImagesCount type:ZQAlbumTypePhoto bSingleSelect:NO crop:NO delegate:delegate didFinishPhotoBlock:[finishBlock copy]];
++ (void)photoMultiSelectWithMaxImagesCount:(NSInteger)maxImagesCount
+                                  delegate:(id)delegate
+                       didFinishPhotoBlock:(void (^)(NSArray<UIImage*> *photos))finishBlock
+{
+    [PhotoAlbums photoWithMaxImagesCount:maxImagesCount
+                                    type:ZQAlbumTypePhoto
+                           bSingleSelect:NO
+                                    crop:NO
+                                delegate:delegate
+                     didFinishPhotoBlock:[finishBlock copy]];
 }
 
 //single select
-+ (void)photoSingleSelectWithCrop:(BOOL)crop delegate:(id)delegate didFinishPhotoBlock:(void (^)(NSArray<UIImage*> *photos))finishBlock {
-    [PhotoAlbums photoWithMaxImagesCount:1 type:ZQAlbumTypePhoto bSingleSelect:YES crop:crop delegate:delegate didFinishPhotoBlock:[finishBlock copy]];
++ (void)photoSingleSelectWithCrop:(BOOL)crop
+                         delegate:(id)delegate
+              didFinishPhotoBlock:(void (^)(NSArray<UIImage*> *photos))finishBlock
+{
+    [PhotoAlbums photoWithMaxImagesCount:1
+                                    type:ZQAlbumTypePhoto
+                           bSingleSelect:YES
+                                    crop:crop
+                                delegate:delegate
+                     didFinishPhotoBlock:[finishBlock copy]];
 }
 
 
-+ (void)photoWithMaxImagesCount:(NSInteger)maxImagesCount type:(ZQAlbumType)type bSingleSelect:(BOOL)bSingleSelect crop:(BOOL)bEnableCrop delegate:(id)delegate didFinishPhotoBlock:(void (^)(NSArray<UIImage*> *photos))finishBlock {
++ (void)photoWithMaxImagesCount:(NSInteger)maxImagesCount
+                           type:(ZQAlbumType)type
+                  bSingleSelect:(BOOL)bSingleSelect
+                           crop:(BOOL)bEnableCrop
+                       delegate:(id)delegate
+            didFinishPhotoBlock:(void (^)(NSArray<UIImage*> *photos))finishBlock
+{
     
     void (^block)(void) = ^{
         ZQAlbumNavVC *navVc = [[ZQAlbumNavVC alloc] initWithMaxImagesCount:maxImagesCount type:type bSingleSelect:bSingleSelect];

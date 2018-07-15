@@ -75,4 +75,6 @@ typedef void(^ZQVideoCompletion)(AVPlayerItem * _Nullable playerItem, NSDictiona
  */
 + (void)cancelRequest:(PHImageRequestID)requestID;
 
+
+
 @end

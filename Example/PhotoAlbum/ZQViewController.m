@@ -22,6 +22,7 @@
 }
 
 - (IBAction)singleSelectPhoto:(id)sender {
+    NSLog(@"%f", [[NSDate date] timeIntervalSince1970]);
     [PhotoAlbums photoSingleSelectWithCrop:NO delegate:self didFinishPhotoBlock:^(NSArray<UIImage *> *photos) {
         NSLog(@"%@", [photos firstObject]);
     }];

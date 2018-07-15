@@ -68,6 +68,7 @@
 
 #pragma mark - Get photos
 
+
 + (NSArray<ZQAlbumModel*> *)getAllAlbumsWithType:(ZQAlbumType)type
 {
     //moments不需要取，和其他相册重复
@@ -200,17 +201,23 @@
 }
 
 
-//Default deliveryMode is PHImageRequestOptionsDeliveryModeOpportunistic. resultHandler may be called synchronously on the calling thread if any image data is immediately available. If the image data returned in this first pass is of insufficient quality, resultHandler will be called again, asychronously on the main thread at a later time with the "correct" results. If the request is cancelled, resultHandler may not be called at all.
-
+/*
+Default deliveryMode is PHImageRequestOptionsDeliveryModeOpportunistic.
+ResultHandler may be called synchronously on the calling thread if any image data is immediately available.
+ If the image data returned in this first pass is of insufficient quality, resultHandler will be called again, asychronously on the main thread at a later time with the "correct" results.
+ If the request is cancelled, resultHandler may not be called at all.
+*/
 //返回的是原图，原始大小，960*1280
 + (PHImageRequestID)getPhotoWithAssets:(PHAsset *_Nonnull)asset
                             photoWidth:(CGFloat)photoWidth
                             completion:(ZQPhotoCompletion)completion {
     //option为nil时返回的是原图
+    PHImageRequestOptions *option = [PHImageRequestOptions new];
+    option.synchronous = YES;
     return [self getPhotoWithAssets:asset
                          photoWidth:photoWidth
                          completion:completion
-                             option:nil];
+                             option:option];
 }
 
 
@@ -221,50 +228,71 @@
                             completion:(ZQPhotoCompletion)completion
                                 option:(PHImageRequestOptions *)option
 {
-    PHAsset *phAsset = (PHAsset *)asset;
-    CGFloat aspectRatio = phAsset.pixelWidth / (CGFloat)phAsset.pixelHeight;
+    CGFloat aspectRatio = asset.pixelWidth / (CGFloat)asset.pixelHeight;
     CGFloat multiple = 2;//[UIScreen mainScreen].scale;
     CGFloat pixelWidth = photoWidth * multiple;
     CGFloat pixelHeight = pixelWidth / aspectRatio;
-    
-    PHImageRequestID requestID = [[PHImageManager defaultManager] requestImageForAsset:phAsset
-                                                                            targetSize:CGSizeMake(pixelWidth, pixelHeight)
+    CGSize size = CGSizeMake(pixelWidth, pixelHeight);
+    //in main thread
+    //resultHandler会返回多次
+    PHImageRequestID requestID = [[PHImageManager defaultManager] requestImageForAsset:asset
+                                                                            targetSize:size
                                                                            contentMode:(PHImageContentModeAspectFit)
                                                                                options:option
                                                                          resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info)
-    {
-        BOOL downloadFinined = (![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey]);
-        if (downloadFinined) {
-            if (completion) {
-                completion(result, info);
-            }
-        }
-        //download photo from icloud
-        if ([info objectForKey:PHImageResultIsInCloudKey] && !result) {
-            PHImageRequestOptions *option = [[PHImageRequestOptions alloc]init];
-            option.networkAccessAllowed = YES;
-            [[PHImageManager defaultManager] requestImageDataForAsset:asset
-                                                              options:option
-                                                        resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info)
-            {
-                UIImage *resultImage = [UIImage imageWithData:imageData scale:0.9];
-                resultImage = [self scaleImage:resultImage toSize:CGSizeMake(pixelWidth, pixelHeight)];
-                
-                if (completion) {
-                    ZQPhotoCompletion comp = completion;
-                    if (resultImage.imageAsset == nil) {//下载失败但resultImage!=nil
-                        comp(nil, info);
-                    }
-                    else if (resultImage) {
-                        comp(resultImage, info);
-                    }
-                }
-                
-            }];
-        }
-    }];
+                                  {
+                                      if ([ZQPhotoFetcher isFetchSuccess:info]) {
+                                          if (completion) {
+                                            completion(result, info);
+                                          }
+                                      }
+                                      //download photo from icloud
+                                      if ([info objectForKey:PHImageResultIsInCloudKey] && !result) {
+                                          [ZQPhotoFetcher downloadFromiCloud:asset size:size completion:completion];
+                                      }
+                                      
+                                  }];
+    
     
     return requestID;
+}
++ (BOOL)isFetchSuccess:(NSDictionary*)info {
+    return ([[info objectForKey:PHImageCancelledKey] boolValue] == 0 &&
+            [[info objectForKey:PHImageErrorKey] boolValue] == 0 &&
+            [[info objectForKey:PHImageResultIsInCloudKey] boolValue] == 0);
+}
++ (void)downloadFromiCloud:(PHAsset *)asset
+                      size:(CGSize)size
+                completion:(ZQPhotoCompletion)completion
+{
+    PHImageRequestOptions *option = [[PHImageRequestOptions alloc]init];
+    option.networkAccessAllowed = YES;
+    NSLog(@"main: %d", [NSThread isMainThread]);
+    [[PHImageManager defaultManager] requestImageDataForAsset:asset
+                                                      options:option
+                                                resultHandler:^(NSData * _Nullable imageData,
+                                                                NSString * _Nullable dataUTI,
+                                                                UIImageOrientation orientation,
+                                                                NSDictionary * _Nullable info)
+     {
+         UIImage *resultImage = [UIImage imageWithData:imageData scale:0.9];
+         resultImage = [self scaleImage:resultImage toSize:size];
+         
+         if (completion) {
+             ZQPhotoCompletion comp = [completion copy];
+             if (resultImage.imageAsset == nil) {//下载失败但resultImage!=nil
+                 comp(nil, info);
+             }
+             else if (resultImage) {
+                 NSLog(@"=============== icloud");
+                 comp(resultImage, info);
+                 
+             }
+         }
+         
+     }];
+    
+
 }
 
 + (void)cancelRequest:(PHImageRequestID)requestID {
@@ -285,7 +313,10 @@
 + (PHImageRequestID)getVideoWithAssets:(PHAsset *_Nonnull)asset
                             completion:(ZQVideoCompletion)completion
 {
-    PHImageRequestID requestID = [[PHImageManager defaultManager] requestPlayerItemForVideo:asset options:nil resultHandler:^(AVPlayerItem * _Nullable playerItem, NSDictionary * _Nullable info) {
+    PHImageRequestID requestID = [[PHImageManager defaultManager] requestPlayerItemForVideo:asset
+                                                                                    options:nil
+                                                                              resultHandler:^(AVPlayerItem * _Nullable playerItem, NSDictionary * _Nullable info) {
+                                                                                  
         if (completion) {
             completion(playerItem, info);
         }
@@ -302,7 +333,12 @@
 //    opt.deliveryMode = PHVideoRequestOptionsDeliveryModeMediumQualityFormat;
     
     ______WS();
-    [[PHImageManager defaultManager] requestAVAssetForVideo:asset options:nil resultHandler:^(AVAsset * _Nullable asset, AVAudioMix * _Nullable audioMix, NSDictionary * _Nullable info) {
+    [[PHImageManager defaultManager] requestAVAssetForVideo:asset
+                                                    options:nil
+                                              resultHandler:^(AVAsset * _Nullable asset,
+                                                              AVAudioMix * _Nullable audioMix,
+                                                              NSDictionary * _Nullable info)
+    {
         NSString *docPath = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES) firstObject];
         NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
         [formatter setDateFormat:@"yyyy-MM-dd-HH:mm:ss"];

@@ -23,8 +23,10 @@
     return [self initWithMaxImagesCount:1 type:type bSingleSelect:YES];
 }
 
-- (instancetype)initWithMaxImagesCount:(NSInteger)maxImagesCount type:(ZQAlbumType)type bSingleSelect:(BOOL)bSingleSelect {
-
+- (instancetype)initWithMaxImagesCount:(NSInteger)maxImagesCount
+                                  type:(ZQAlbumType)type
+                         bSingleSelect:(BOOL)bSingleSelect
+{
         ZQAlbumListVC *lvc = [[ZQAlbumListVC alloc] init];
         lvc.type = type;
         lvc.bSingleSelection = bSingleSelect;

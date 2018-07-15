@@ -32,7 +32,7 @@
     [super viewDidLoad];
     [self initUI];
     if ([ZQPhotoFetcher authorizationStatusAuthorized]) {
-        [self loadAlbums];
+        [self loadAllAlbums];
     }
     
 }
@@ -53,7 +53,7 @@
     self.tableView = [[UITableView alloc] initWithFrame:tableViewFrame style:(UITableViewStylePlain)];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-//    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.tableView];
     [self.tableView registerClass:[ZQAlbumListCell class] forCellReuseIdentifier:NSStringFromClass([ZQAlbumListCell class])];
 }
@@ -63,7 +63,8 @@
     [self.navigationController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)loadAlbums {
+
+- (void)loadAllAlbums {
     NSArray<ZQAlbumModel *> *albums = [ZQPhotoFetcher getAllAlbumsWithType:self.type];
     self.albums = albums;
     if (albums.count == 0) {
