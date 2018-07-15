@@ -194,7 +194,6 @@
     }
 
     
-//    NSMutableDictionary *results = [[NSMutableDictionary alloc] init];
     NSMutableArray *resultImg = [NSMutableArray new];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         __block dispatch_group_t group = dispatch_group_create();
@@ -217,12 +216,13 @@
                 }
                 else {
                     //info也没有是什么情况
-                    //如果没有回调大图，group出不去，就悲剧了
+                    //如果没有回调大图，group出不去，整个group会在超时时间60s后结束并返回
                 }
             }];
 
         }
-        dispatch_group_wait(group, DISPATCH_TIME_FOREVER);
+        dispatch_time_t timeout = dispatch_time(DISPATCH_TIME_NOW, (int64_t)(60 * NSEC_PER_SEC));
+        long ret = dispatch_group_wait(group, timeout);
         dispatch_async(dispatch_get_main_queue(), ^{
             [ProgressHUD hide];
             UIViewController *vc = [wSelf firstViewController];
@@ -230,7 +230,7 @@
             [nav dismissViewControllerAnimated:YES completion:^{
                 if (nav.didFinishPickingPhotosHandle) {
                     NSArray *images = resultImg;
-                    if (images.count == 0) {
+                    if (images.count == 0 || ret != 0) {
                         NSString *msg = _LocalizedString(@"FETCH_PHOTO_ERROR");
                         UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:msg preferredStyle:(UIAlertControllerStyleAlert)];
                         UIAlertAction *ok = [UIAlertAction actionWithTitle:_LocalizedString(@"OPERATION_OK") style:(UIAlertActionStyleDefault) handler:nil];
