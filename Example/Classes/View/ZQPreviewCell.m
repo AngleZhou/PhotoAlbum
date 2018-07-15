@@ -69,7 +69,7 @@
         self.ivPhoto.image = image;
     }
     else {
-        self.mPhoto.requestID = [ZQPhotoFetcher getPhotoFastWithAssets:self.mPhoto.asset photoWidth:kTPScreenWidth completionHandler:^(UIImage *image, NSDictionary *info) {
+        self.mPhoto.requestID = [ZQPhotoFetcher getPhotoFastWithAssets:self.mPhoto.asset photoWidth:kTPScreenWidth completion:^(UIImage *image, NSDictionary *info) {
             dispatch_async(dispatch_get_main_queue(), ^{
                 if (image) {
                     wSelf.ivPhoto.image = image;

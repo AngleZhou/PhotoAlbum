@@ -111,6 +111,8 @@
  *
  *  @return instance of ZQAlbumNavVC
  */
-- (instancetype)initWithMaxImagesCount:(NSInteger)maxImagesCount type:(ZQAlbumType)type bSingleSelect:(BOOL)bSingleSelect;
+- (instancetype)initWithMaxImagesCount:(NSInteger)maxImagesCount
+                                  type:(ZQAlbumType)type
+                         bSingleSelect:(BOOL)bSingleSelect;
 
 @end

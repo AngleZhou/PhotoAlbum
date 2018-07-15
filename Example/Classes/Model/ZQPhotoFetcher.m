@@ -7,11 +7,6 @@
 //
 
 #import "ZQPhotoFetcher.h"
-#import "Typedefs.h"
-
-#import "ZQAlbumModel.h"
-#import "ZQPhotoModel.h"
-#import "ZQAlbumNavVC.h"
 #import "ZQPublic.h"
 
 
@@ -43,27 +38,101 @@
 
 #pragma mark - exceed Alert
 
-+ (void)exceedMaxImagesCountAlert:(NSInteger)maxImagesCount presentingVC:(UIViewController * _Nonnull)vc navVC:(ZQAlbumNavVC * _Nonnull)navVC {
++ (void)exceedMaxImagesCountAlert:(NSInteger)maxImagesCount
+                     presentingVC:(UIViewController * _Nonnull)vc
+                            navVC:(ZQAlbumNavVC * _Nonnull)navVC
+{
     NSString *message;
-    if (navVC.albumDelegate && [navVC.albumDelegate respondsToSelector:@selector(ZQAlbumNavVCExceedMaxImageCountMessage:)]) {
+    if (navVC.albumDelegate &&
+        [navVC.albumDelegate respondsToSelector:@selector(ZQAlbumNavVCExceedMaxImageCountMessage:)])
+    {
         message = [navVC.albumDelegate ZQAlbumNavVCExceedMaxImageCountMessage:navVC.maxImagesCount];
     }
     else {
         message = [NSString stringWithFormat:_LocalizedString(@"PHOTO_MAX_SELECTION"), maxImagesCount];
     }
     
-    UIAlertController *alertC = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:(UIAlertControllerStyleAlert)];
-    UIAlertAction *ok = [UIAlertAction actionWithTitle:_LocalizedString(@"OPERATION_OK") style:(UIAlertActionStyleDefault) handler:^(UIAlertAction * _Nonnull action) {
+    UIAlertController *alertC = [UIAlertController alertControllerWithTitle:nil
+                                                                    message:message
+                                                             preferredStyle:(UIAlertControllerStyleAlert)];
+    
+    UIAlertAction *ok = [UIAlertAction actionWithTitle:_LocalizedString(@"OPERATION_OK")
+                                                 style:(UIAlertActionStyleDefault)
+                                               handler:^(UIAlertAction * _Nonnull action) {
         
     }];
     [alertC addAction:ok];
     [vc presentViewController:alertC animated:YES completion:nil];
 }
 
+
 #pragma mark - Get photos
-+ (void)getAllAlbumsWithType:(ZQAlbumType)type completion:(void(^_Nonnull)(NSArray<ZQAlbumModel*> * _Nonnull albums))completion {
-    NSMutableArray *albumArr = [[NSMutableArray alloc] init];
+
++ (NSArray<ZQAlbumModel*> *)getAllAlbumsWithType:(ZQAlbumType)type
+{
+    //moments不需要取，和其他相册重复
+    NSMutableArray *systems = [[ZQPhotoFetcher getSystemAlbums:type] mutableCopy];
+    NSArray        *customs = [ZQPhotoFetcher getCustomAlbums:type];
+    [systems addObjectsFromArray:customs];
     
+    return [systems copy];
+}
+
++ (NSArray *)getSystemAlbums:(ZQAlbumType)type {
+    NSMutableArray *albumArr = [NSMutableArray new];
+    PHFetchOptions *options = [ZQPhotoFetcher fetchOptionWithType:type];
+    PHAssetCollectionSubtype subType = PHAssetCollectionSubtypeAny;
+    if (type == ZQAlbumTypeVideo) {
+        subType = PHAssetCollectionSubtypeSmartAlbumVideos;
+    }
+    PHFetchResult *systemAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum
+                                                                           subtype:subType
+                                                                           options:nil];
+    //取相册的封面，照片数目，名字
+    for (PHAssetCollection *collection in systemAlbums) {
+        if ([ZQPhotoFetcher collectionShouldSkip:collection albumType:type]) {
+            continue;
+        }
+        ZQAlbumModel *model = [[ZQAlbumModel alloc] initWithPHAssetCollection:collection options:options];
+        if (model.count > 0) {
+            NSLog(@"%@", collection.localizedTitle);
+            if([model.name isEqualToString:_LocalizedString(@"My Photo Stream")]) {
+                [albumArr insertObject:model atIndex:0];
+            }
+            else if([model.name isEqualToString:_LocalizedString(@"Camera Roll")]) {
+                [albumArr insertObject:model atIndex:0];
+            }
+            else if([model.name isEqualToString:_LocalizedString(@"All Photos")]) {
+                [albumArr insertObject:model atIndex:0];
+            }
+            else {
+                [albumArr addObject:model];
+            }
+        }
+    }
+    return albumArr;
+}
+
++ (NSArray<ZQAlbumModel*> *)getCustomAlbums:(ZQAlbumType)type {
+    NSMutableArray *albumArr = [NSMutableArray new];
+    PHFetchOptions *options = [ZQPhotoFetcher fetchOptionWithType:type];
+    
+    PHFetchResult *customResult = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum
+                                                                           subtype:PHAssetCollectionSubtypeAny
+                                                                           options:nil];
+    
+    for (PHAssetCollection *collection in customResult) {
+        ZQAlbumModel *model = [[ZQAlbumModel alloc] initWithPHAssetCollection:collection options:options];
+        if (model.count > 0) {
+            NSLog(@"%@", collection.localizedTitle);
+            [albumArr addObject:model];
+        }
+    }
+    return albumArr;
+}
+
+
++ (PHFetchOptions *)fetchOptionWithType:(ZQAlbumType)type {
     PHFetchOptions *option = [[PHFetchOptions alloc] init];
     option.sortDescriptors = @[[NSSortDescriptor sortDescriptorWithKey:@"creationDate" ascending:YES]];
     switch (type) {
@@ -79,126 +148,97 @@
             break;
         }
     }
-
-    //取系统相册
-    PHFetchResult *smartAlbums;
-    if (type == ZQAlbumTypeVideo) {
-        smartAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeSmartAlbumVideos options:nil];
-    }
-    else {
-        smartAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeSmartAlbum subtype:PHAssetCollectionSubtypeAlbumRegular options:nil];
-    }
-    
-    //取相册的封面，照片数目，名字
-    [smartAlbums enumerateObjectsUsingBlock:^(PHAssetCollection *collection, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSLog(@"%@", collection.localizedTitle);
-        if (type == ZQAlbumTypePhoto && [collection.localizedTitle isEqualToString:_LocalizedString(@"Videos")]) {
-            return;
-        }
-        
-        if ([collection.localizedTitle isEqualToString:_LocalizedString(@"Hidden")]) {
-            return;
-        }
-        if ([collection.localizedTitle isEqualToString:_LocalizedString(@"Recently Deleted")]) {
-            return;
-        }
-        //取封面
-        PHFetchResult *assets = [PHAsset fetchAssetsInAssetCollection:collection options:option];
-
-        if (assets.count > 0) {
-            ZQAlbumModel *model = [[ZQAlbumModel alloc] init];
-            model.count = assets.count;
-            model.name = collection.localizedTitle;
-            model.identifier = collection.localIdentifier;
-            model.fetchResult = assets;
-        
-            if([collection.localizedTitle isEqualToString:_LocalizedString(@"My Photo Stream")]) {
-                [albumArr insertObject:model atIndex:0];
-            }
-            else if([collection.localizedTitle isEqualToString:_LocalizedString(@"Camera Roll")]) {
-                [albumArr insertObject:model atIndex:0];
-            }
-            else if([collection.localizedTitle isEqualToString:_LocalizedString(@"All Photos")]) {
-                [albumArr insertObject:model atIndex:0];
-            }
-            else {
-                [albumArr addObject:model];
-            }
-        }
-        
-    }];
-    
-    //取其他自定义相册
-    PHFetchResult *syncAlbums = [PHAssetCollection fetchAssetCollectionsWithType:PHAssetCollectionTypeAlbum subtype:PHAssetCollectionSubtypeAny options:nil];
-    [syncAlbums enumerateObjectsUsingBlock:^(PHAssetCollection *collection, NSUInteger idx, BOOL * _Nonnull stop) {
-        NSLog(@"%@", collection.localizedTitle);
-        PHFetchResult *assets = [PHAsset fetchAssetsInAssetCollection:collection options:option];
-        if (assets.count > 0) {
-            ZQAlbumModel *model = [[ZQAlbumModel alloc] init];
-            model.count = assets.count;
-            model.name = collection.localizedTitle;
-            model.identifier = collection.localIdentifier;
-            model.fetchResult = assets;
-            [albumArr addObject:model];
-        }
-    }];
-    
-    if (completion) {
-        completion([albumArr copy]);
-    }
+    return option;
 }
 
-+ (void)getAllPhotosInAlbum:(ZQAlbumModel *_Nonnull)collection completion:(void(^_Nonnull)(NSArray<ZQPhotoModel*>* _Nonnull photos))completion {
++ (BOOL)collectionShouldSkip:(PHAssetCollection *)collection albumType:(ZQAlbumType)type {
+    if (type == ZQAlbumTypePhoto && [collection.localizedTitle isEqualToString:_LocalizedString(@"Videos")]) {
+        return YES;
+    }
+    if ([collection.localizedTitle isEqualToString:_LocalizedString(@"Hidden")]) {
+        return YES;
+    }
+    if ([collection.localizedTitle isEqualToString:_LocalizedString(@"Recently Deleted")]) {
+        return YES;
+    }
+    return NO;
+}
+
+
+
++ (NSArray<ZQPhotoModel*> *)getAllPhotosInAlbum:(ZQAlbumModel *_Nonnull)collection
+{
     PHFetchResult *result = collection.fetchResult;
     NSArray *assets = [result objectsAtIndexes:[NSIndexSet indexSetWithIndexesInRange:NSMakeRange(0, result.count)]];
     NSMutableArray *mArr = [[NSMutableArray alloc] init];
-    [assets enumerateObjectsUsingBlock:^(PHAsset * asset, NSUInteger idx, BOOL * _Nonnull stop) {
-        ZQPhotoModel *model = [[ZQPhotoModel alloc] init];
-        model.asset = asset;
-        model.bSelected = NO;
-        model.duration = asset.duration;
+    for (PHAsset *asset in assets) {
+        ZQPhotoModel *model = [[ZQPhotoModel alloc] initWithPHAsset:asset];
         [mArr addObject:model];
-    }];
-    if (completion) {
-        completion([mArr copy]);
     }
-
+    
+    return [mArr copy];
+    
 }
 
 
 #pragma mark - 获取单张照片
 
-+ (PHImageRequestID)getAlbumCoverFromAlbum:(ZQAlbumModel *_Nonnull)collection completion:(void(^_Nonnull)(UIImage * _Nullable image, NSDictionary * _Nullable info))completion {
++ (PHImageRequestID)getAlbumCoverFromAlbum:(ZQAlbumModel *_Nonnull)collection
+                                completion:(ZQPhotoCompletion)completion
+{
     PHAsset *lastPhoto = [(PHFetchResult *)collection.fetchResult lastObject];
-    return [self getPhotoFastWithAssets:lastPhoto photoWidth:80 completionHandler:completion];
+    return [self getPhotoFastWithAssets:lastPhoto
+                             photoWidth:80
+                             completion:completion];
 }
-+ (PHImageRequestID)getPhotoFastWithAssets:(PHAsset *_Nonnull)asset photoWidth:(CGFloat)photoWidth completionHandler:(void (^_Nonnull)(UIImage * _Nullable image, NSDictionary * _Nullable info))completion {
+
++ (PHImageRequestID)getPhotoFastWithAssets:(PHAsset *_Nonnull)asset
+                                photoWidth:(CGFloat)photoWidth
+                                completion:(ZQPhotoCompletion)completion
+{
     PHImageRequestOptions *option = [PHImageRequestOptions new];
     option.deliveryMode = PHImageRequestOptionsDeliveryModeOpportunistic;
     option.resizeMode = PHImageRequestOptionsResizeModeExact;//fast 200*200
-    return [self getPhotoWithAssets:asset photoWidth:photoWidth completionHandler:completion option:option];
+    return [self getPhotoWithAssets:asset
+                         photoWidth:photoWidth
+                         completion:completion
+                             option:option];
 }
 
 
 //Default deliveryMode is PHImageRequestOptionsDeliveryModeOpportunistic. resultHandler may be called synchronously on the calling thread if any image data is immediately available. If the image data returned in this first pass is of insufficient quality, resultHandler will be called again, asychronously on the main thread at a later time with the "correct" results. If the request is cancelled, resultHandler may not be called at all.
 
 //返回的是原图，原始大小，960*1280
-+ (PHImageRequestID)getPhotoWithAssets:(PHAsset *_Nonnull)asset photoWidth:(CGFloat)photoWidth completionHandler:(void (^_Nonnull)(UIImage * _Nullable image, NSDictionary * _Nullable info))completion {
++ (PHImageRequestID)getPhotoWithAssets:(PHAsset *_Nonnull)asset
+                            photoWidth:(CGFloat)photoWidth
+                            completion:(ZQPhotoCompletion)completion {
     //option为nil时返回的是原图
-    return [self getPhotoWithAssets:asset photoWidth:photoWidth completionHandler:completion option:nil];
+    return [self getPhotoWithAssets:asset
+                         photoWidth:photoWidth
+                         completion:completion
+                             option:nil];
 }
 
 
 
 
-+ (PHImageRequestID)getPhotoWithAssets:(PHAsset *)asset photoWidth:(CGFloat)photoWidth completionHandler:(void(^)(UIImage *image, NSDictionary *info))completion option:(PHImageRequestOptions *)option {
++ (PHImageRequestID)getPhotoWithAssets:(PHAsset *)asset
+                            photoWidth:(CGFloat)photoWidth
+                            completion:(ZQPhotoCompletion)completion
+                                option:(PHImageRequestOptions *)option
+{
     PHAsset *phAsset = (PHAsset *)asset;
     CGFloat aspectRatio = phAsset.pixelWidth / (CGFloat)phAsset.pixelHeight;
     CGFloat multiple = 2;//[UIScreen mainScreen].scale;
     CGFloat pixelWidth = photoWidth * multiple;
     CGFloat pixelHeight = pixelWidth / aspectRatio;
     
-    PHImageRequestID requestID = [[PHImageManager defaultManager] requestImageForAsset:phAsset targetSize:CGSizeMake(pixelWidth, pixelHeight) contentMode:(PHImageContentModeAspectFit) options:option resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info) {
+    PHImageRequestID requestID = [[PHImageManager defaultManager] requestImageForAsset:phAsset
+                                                                            targetSize:CGSizeMake(pixelWidth, pixelHeight)
+                                                                           contentMode:(PHImageContentModeAspectFit)
+                                                                               options:option
+                                                                         resultHandler:^(UIImage * _Nullable result, NSDictionary * _Nullable info)
+    {
         BOOL downloadFinined = (![[info objectForKey:PHImageCancelledKey] boolValue] && ![info objectForKey:PHImageErrorKey]);
         if (downloadFinined) {
             if (completion) {
@@ -209,15 +249,23 @@
         if ([info objectForKey:PHImageResultIsInCloudKey] && !result) {
             PHImageRequestOptions *option = [[PHImageRequestOptions alloc]init];
             option.networkAccessAllowed = YES;
-            [[PHImageManager defaultManager] requestImageDataForAsset:asset options:option resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info) {
+            [[PHImageManager defaultManager] requestImageDataForAsset:asset
+                                                              options:option
+                                                        resultHandler:^(NSData * _Nullable imageData, NSString * _Nullable dataUTI, UIImageOrientation orientation, NSDictionary * _Nullable info)
+            {
                 UIImage *resultImage = [UIImage imageWithData:imageData scale:0.9];
                 resultImage = [self scaleImage:resultImage toSize:CGSizeMake(pixelWidth, pixelHeight)];
                 
-                if (resultImage) {
-                    if (completion) {
-                        completion(resultImage, info);
+                if (completion) {
+                    ZQPhotoCompletion comp = completion;
+                    if (resultImage.imageAsset == nil) {//下载失败但resultImage!=nil
+                        comp(nil, info);
+                    }
+                    else if (resultImage) {
+                        comp(resultImage, info);
                     }
                 }
+                
             }];
         }
     }];
@@ -240,7 +288,9 @@
 
 #pragma mark - Video
 
-+ (PHImageRequestID)getVideoWithAssets:(PHAsset *_Nonnull)asset completionHandler:(void(^_Nullable)(AVPlayerItem * _Nullable playerItem, NSDictionary * _Nullable info))completion {
++ (PHImageRequestID)getVideoWithAssets:(PHAsset *_Nonnull)asset
+                            completion:(ZQVideoCompletion)completion
+{
     PHImageRequestID requestID = [[PHImageManager defaultManager] requestPlayerItemForVideo:asset options:nil resultHandler:^(AVPlayerItem * _Nullable playerItem, NSDictionary * _Nullable info) {
         if (completion) {
             completion(playerItem, info);
@@ -249,7 +299,9 @@
     return requestID;
 }
 
-+ (void)exportVideoDegradedWithAssets:(PHAsset *_Nonnull)asset progress:(void(^)(CGFloat progress))progressBlock completionHandler:(void(^_Nullable)(AVAsset* _Nullable playerAsset, NSDictionary* _Nullable info, NSURL* _Nullable url))completion {
++ (void)exportVideoDegradedWithAssets:(PHAsset *_Nonnull)asset
+                             progress:(void(^)(CGFloat progress))progressBlock
+                           completion:(void(^_Nullable)(AVAsset* _Nullable playerAsset, NSDictionary* _Nullable info, NSURL* _Nullable url))completion {
     
     //这个opt貌似没有卵用，
 //    PHVideoRequestOptions *opt = [[PHVideoRequestOptions alloc] init];

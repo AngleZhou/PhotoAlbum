@@ -176,7 +176,7 @@
             dispatch_group_enter(group);
             ZQPhotoModel *model = wSelf.selections[i];
 
-            [ZQPhotoFetcher getPhotoWithAssets:model.asset photoWidth:kTPScreenWidth completionHandler:^(UIImage *image, NSDictionary *info) {
+            [ZQPhotoFetcher getPhotoWithAssets:model.asset photoWidth:kTPScreenWidth completion:^(UIImage *image, NSDictionary *info) {
                 if (info) {
                     if ([[info objectForKey:PHImageResultIsDegradedKey] integerValue] == 1) {
                         if (image) {

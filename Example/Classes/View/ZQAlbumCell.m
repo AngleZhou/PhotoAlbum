@@ -83,7 +83,7 @@
             self.imageView.image = image;
         }
         else {
-            self.model.requestID = [ZQPhotoFetcher getPhotoFastWithAssets:self.model.asset photoWidth:width completionHandler:^(UIImage * _Nullable image, NSDictionary * _Nullable info) {
+            self.model.requestID = [ZQPhotoFetcher getPhotoFastWithAssets:self.model.asset photoWidth:width completion:^(UIImage * _Nullable image, NSDictionary * _Nullable info) {
                 if (!wSelf.cancelLoad && wSelf.tag == indexPath.row) {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         if (image) {

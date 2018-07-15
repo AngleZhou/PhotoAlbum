@@ -64,19 +64,17 @@
 }
 
 - (void)loadAlbums {
-    ______WS();
-    [ZQPhotoFetcher getAllAlbumsWithType:self.type completion:^(NSArray<ZQAlbumModel *> * _Nonnull albums) {
-        wSelf.albums = albums;
-        if (albums.count == 0) {
-            [wSelf noPhoto];
-        }
-        
-        if (wSelf.dataLoaded) {
-            wSelf.dataLoaded(albums);
-        }
-        [wSelf.tableView reloadData];
-        
-    }];
+    NSArray<ZQAlbumModel *> *albums = [ZQPhotoFetcher getAllAlbumsWithType:self.type];
+    self.albums = albums;
+    if (albums.count == 0) {
+        [self noPhoto];
+    }
+    
+    if (self.dataLoaded) {
+        self.dataLoaded(albums);
+    }
+    [self.tableView reloadData];
+
 }
 
 - (void)noPhoto {

@@ -121,10 +121,7 @@ static CGFloat kButtomBarHeight = 48;
     [self.navigationController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 - (void)loadData {
-    ______WS();
-    [ZQPhotoFetcher getAllPhotosInAlbum:self.mAlbum completion:^(NSArray<ZQPhotoModel *> * _Nonnull photos) {
-        wSelf.models = [photos copy];
-    }];
+    self.models = [ZQPhotoFetcher getAllPhotosInAlbum:self.mAlbum];
 }
 
 
