@@ -10,7 +10,7 @@
 
 @class ZQAlbumModel;
 
-static const CGFloat AlbumListCellHeight = 70.0;
+static const CGFloat AlbumListCellHeight = 50.0;
 
 @interface ZQAlbumListCell : UITableViewCell
 @property (nonatomic, strong) ZQAlbumModel *model;

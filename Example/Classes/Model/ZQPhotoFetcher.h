@@ -22,6 +22,7 @@
 typedef void(^ZQPhotoCompletion)(UIImage * _Nullable image, NSDictionary * _Nullable info);
 typedef void(^ZQVideoCompletion)(AVPlayerItem * _Nullable playerItem, NSDictionary * _Nullable info);
 
+
 @interface ZQPhotoFetcher : NSObject
 
 + (BOOL)authorizationStatusAuthorized;

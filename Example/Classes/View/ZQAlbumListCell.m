@@ -21,7 +21,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        self.ivCover = [[UIImageView alloc] initWithFrame:CGRectMake(5.0, 5.0, AlbumListCellHeight - 10.0, AlbumListCellHeight - 10.0)];
+        self.ivCover = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, AlbumListCellHeight, AlbumListCellHeight)];
         self.ivCover.contentMode = UIViewContentModeScaleAspectFill;
         self.ivCover.clipsToBounds = YES;
         [self.contentView addSubview:self.ivCover];

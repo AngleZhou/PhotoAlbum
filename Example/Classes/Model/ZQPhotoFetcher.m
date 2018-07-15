@@ -96,13 +96,7 @@
         ZQAlbumModel *model = [[ZQAlbumModel alloc] initWithPHAssetCollection:collection options:options];
         if (model.count > 0) {
             NSLog(@"%@", collection.localizedTitle);
-            if([model.name isEqualToString:_LocalizedString(@"My Photo Stream")]) {
-                [albumArr insertObject:model atIndex:0];
-            }
-            else if([model.name isEqualToString:_LocalizedString(@"Camera Roll")]) {
-                [albumArr insertObject:model atIndex:0];
-            }
-            else if([model.name isEqualToString:_LocalizedString(@"All Photos")]) {
+            if([model.name isEqualToString:_LocalizedString(@"All Photos")]) {
                 [albumArr insertObject:model atIndex:0];
             }
             else {
@@ -188,7 +182,7 @@
 {
     PHAsset *lastPhoto = [(PHFetchResult *)collection.fetchResult lastObject];
     return [self getPhotoFastWithAssets:lastPhoto
-                             photoWidth:80
+                             photoWidth:40
                              completion:completion];
 }
 

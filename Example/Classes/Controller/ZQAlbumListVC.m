@@ -53,7 +53,7 @@
     self.tableView = [[UITableView alloc] initWithFrame:tableViewFrame style:(UITableViewStylePlain)];
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
+//    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     [self.view addSubview:self.tableView];
     [self.tableView registerClass:[ZQAlbumListCell class] forCellReuseIdentifier:NSStringFromClass([ZQAlbumListCell class])];
 }

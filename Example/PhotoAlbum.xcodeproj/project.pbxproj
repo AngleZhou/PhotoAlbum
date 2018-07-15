@@ -307,12 +307,12 @@
 			isa = PBXGroup;
 			children = (
 				B24AC9071D6C1D0F00A4051F /* Typedefs.h */,
-				B24AC9081D6C1D0F00A4051F /* ZQAlbumModel.h */,
-				B24AC9091D6C1D0F00A4051F /* ZQAlbumModel.m */,
 				B24AC90A1D6C1D0F00A4051F /* ZQPhotoFetcher.h */,
 				B24AC90B1D6C1D0F00A4051F /* ZQPhotoFetcher.m */,
 				B24AC90C1D6C1D0F00A4051F /* ZQPhotoModel.h */,
 				B24AC90D1D6C1D0F00A4051F /* ZQPhotoModel.m */,
+				B24AC9081D6C1D0F00A4051F /* ZQAlbumModel.h */,
+				B24AC9091D6C1D0F00A4051F /* ZQAlbumModel.m */,
 			);
 			path = Model;
 			sourceTree = "<group>";
