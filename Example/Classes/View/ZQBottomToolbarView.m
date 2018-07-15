@@ -39,47 +39,69 @@
         self.vLine.backgroundColor = HEXCOLOR(0xded8d7);
         [self addSubview:self.vLine];
         
-        NSString *titlePreView = _LocalizedString(@"OPERATION_PREVIEW");
-        self.btnPreview = [[UIButton alloc] init];
-        [self.btnPreview setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
-        [self.btnPreview setTitleColor:[UIColor grayColor] forState:(UIControlStateDisabled)];
-        self.btnPreview.titleLabel.font = [UIFont systemFontOfSize:15];
-        [self.btnPreview setTitle:titlePreView forState:(UIControlStateNormal)];
-        [self.btnPreview sizeToFit];
-        self.btnPreview.frame = CGRectMake(ZQSide_X, 0.5, self.btnPreview.width, frame.size.height);
-        [self addSubview:self.btnPreview];
-        self.btnPreview.enabled = NO;
-        [self.btnPreview addTarget:self action:@selector(preview) forControlEvents:UIControlEventTouchUpInside];
-        
-        self.btnFinish = [[UIButton alloc] init];
-        [self.btnFinish setTitleColor:ZQAlbumBarTintColor forState:UIControlStateNormal];
-        [self.btnFinish setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
-        [self.btnFinish setTitle:_LocalizedString(@"OPERATION_FINISH") forState:(UIControlStateNormal)];
-        self.btnFinish.titleLabel.font = [UIFont systemFontOfSize:15];
-        [self.btnFinish sizeToFit];
-        self.btnFinish.frame = CGRectMake(frame.origin.x+frame.size.width-self.btnFinish.width-ZQSide_X, 0.5, self.btnFinish.frame.size.width, frame.size.height);
-        self.btnFinish.enabled = NO;
-        [self addSubview:self.btnFinish];
-        [self.btnFinish addTarget:self action:@selector(finish) forControlEvents:UIControlEventTouchUpInside];
-        
-        self.ivCircle = [[UIImageView alloc] initWithImage:_image(@"photo_number_icon")];
-        CGFloat x = self.btnFinish.frame.origin.x - 5 - self.ivCircle.frame.size.width;
-        CGFloat y = (frame.size.height - self.ivCircle.frame.size.height)/2;
-        self.ivCircle.frame = CGRectMake(x, y, self.ivCircle.width, self.ivCircle.height);
-        [self addSubview:self.ivCircle];
-        self.ivCircle.hidden = YES;
-        
-        self.lblNumber = [[UILabel alloc] init];
-        self.lblNumber.textColor = [UIColor whiteColor];
-        self.lblNumber.font = [UIFont boldSystemFontOfSize:15];
-        [self addSubview:self.lblNumber];
-        self.lblNumber.center = self.ivCircle.center;
-        self.lblNumber.size = CGSizeMake(5, 5);
+        [self setupPreviewBtn:frame];
+        [self setupFinishBtn:frame];
+        [self setupSelectionCircle:frame];
         
         [self addSubview:self.btnCancel];
         self.btnCancel.hidden = YES;
     }
     return self;
+}
+- (void)setupPreviewBtn:(CGRect)frame {
+    NSString *titlePreView = _LocalizedString(@"OPERATION_PREVIEW");
+    self.btnPreview = [[UIButton alloc] init];
+    [self.btnPreview setTitleColor:[UIColor blackColor] forState:(UIControlStateNormal)];
+    [self.btnPreview setTitleColor:[UIColor grayColor] forState:(UIControlStateDisabled)];
+    self.btnPreview.titleLabel.font = [UIFont systemFontOfSize:15];
+    [self.btnPreview setTitle:titlePreView forState:(UIControlStateNormal)];
+    [self.btnPreview sizeToFit];
+    self.btnPreview.frame = CGRectMake(ZQSide_X,
+                                       0.5,
+                                       self.btnPreview.width,
+                                       frame.size.height);
+    [self addSubview:self.btnPreview];
+    self.btnPreview.enabled = NO;
+    [self.btnPreview addTarget:self
+                        action:@selector(preview)
+              forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)setupFinishBtn:(CGRect)frame {
+    self.btnFinish = [[UIButton alloc] init];
+    [self.btnFinish setTitleColor:ZQAlbumBarTintColor forState:UIControlStateNormal];
+    [self.btnFinish setTitleColor:[UIColor grayColor] forState:UIControlStateDisabled];
+    [self.btnFinish setTitle:_LocalizedString(@"OPERATION_FINISH") forState:(UIControlStateNormal)];
+    self.btnFinish.titleLabel.font = [UIFont systemFontOfSize:15];
+    [self.btnFinish sizeToFit];
+    self.btnFinish.frame = CGRectMake(frame.origin.x+frame.size.width-self.btnFinish.width-ZQSide_X,
+                                      0.5,
+                                      self.btnFinish.frame.size.width,
+                                      frame.size.height);
+    self.btnFinish.enabled = NO;
+    [self addSubview:self.btnFinish];
+    [self.btnFinish addTarget:self
+                       action:@selector(finish)
+             forControlEvents:UIControlEventTouchUpInside];
+}
+
+- (void)setupSelectionCircle:(CGRect)frame {
+    self.ivCircle = [[UIImageView alloc] initWithImage:_image(@"photo_number_icon")];
+    CGFloat x = self.btnFinish.frame.origin.x - 5 - self.ivCircle.frame.size.width;
+    CGFloat y = (frame.size.height - self.ivCircle.frame.size.height)/2;
+    self.ivCircle.frame = CGRectMake(x,
+                                     y,
+                                     self.ivCircle.width,
+                                     self.ivCircle.height);
+    [self addSubview:self.ivCircle];
+    self.ivCircle.hidden = YES;
+    
+    self.lblNumber = [[UILabel alloc] init];
+    self.lblNumber.textColor = [UIColor whiteColor];
+    self.lblNumber.font = [UIFont boldSystemFontOfSize:15];
+    [self addSubview:self.lblNumber];
+    self.lblNumber.center = self.ivCircle.center;
+    self.lblNumber.size = CGSizeMake(5, 5);
 }
 
 - (void)setBSingleSelection:(BOOL)bSingleSelection {
@@ -151,6 +173,9 @@
     vc.delegate = (id<ZQPhotoPreviewVCDelegate>)pvc;
     [pvc.navigationController pushViewController:vc animated:YES];
 }
+
+#pragma mark - 选择图片后获取图片
+
 - (void)finish {
     [ProgressHUD show];
     ______WS();
@@ -204,7 +229,6 @@
             ZQAlbumNavVC *nav = (ZQAlbumNavVC *)vc.navigationController;
             [nav dismissViewControllerAnimated:YES completion:^{
                 if (nav.didFinishPickingPhotosHandle) {
-//                    NSArray *images = [results allValues];
                     NSArray *images = resultImg;
                     if (images.count == 0) {
                         NSString *msg = _LocalizedString(@"FETCH_PHOTO_ERROR");

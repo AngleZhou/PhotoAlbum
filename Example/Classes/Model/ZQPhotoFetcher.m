@@ -234,7 +234,7 @@ ResultHandler may be called synchronously on the calling thread if any image dat
     CGFloat pixelHeight = pixelWidth / aspectRatio;
     CGSize size = CGSizeMake(pixelWidth, pixelHeight);
     //in main thread
-    //resultHandler会返回多次
+    //默认是asynchronous,resultHandler会被系统调用多次。如果设置成synchronous，则只调用一次
     PHImageRequestID requestID = [[PHImageManager defaultManager] requestImageForAsset:asset
                                                                             targetSize:size
                                                                            contentMode:(PHImageContentModeAspectFit)
@@ -286,7 +286,6 @@ ResultHandler may be called synchronously on the calling thread if any image dat
              else if (resultImage) {
                  NSLog(@"=============== icloud");
                  comp(resultImage, info);
-                 
              }
          }
          
