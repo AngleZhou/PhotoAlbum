@@ -19,6 +19,7 @@
 #import "ZQPublic.h"
 #import "NSString+Size.h"
 #import "ZQAlbumNavVC.h"
+#import "ZQListView.h"
 
 static CGFloat kButtomBarHeight = 48;
 
@@ -38,6 +39,13 @@ static CGFloat kButtomBarHeight = 48;
 
 @property (nonatomic, strong) NSCache *cacheThumb;
 @property (nonatomic, strong) NSCache *cache;
+
+@property (nonatomic, strong) ZQListView *listView;
+
+@property (nonatomic, strong) UILabel *labelTitle;
+
+@property (nonatomic, strong) UIView *viewTitle;
+@property (nonatomic, strong) UIImageView *imageViewDown;
 
 @end
 @implementation ZQAlbumVC
@@ -77,20 +85,42 @@ static CGFloat kButtomBarHeight = 48;
 }
 
 - (void)initUI {
-    self.navigationItem.title = self.mAlbum.name;
+//    self.navigationItem.title = self.mAlbum.name;
+    
+    _viewTitle = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 81, 44)];
+    UIButton *btn = [[UIButton alloc] init];
+    btn.frame = _viewTitle.bounds;
+    [btn addTarget:self action:@selector(showList) forControlEvents:UIControlEventTouchUpInside];
+    [_viewTitle addSubview:btn];
+    _labelTitle = [[UILabel alloc] init];
+    _labelTitle.textColor = [UIColor darkTextColor];
+    _labelTitle.font = [UIFont systemFontOfSize:17 weight:UIFontWeightSemibold];
+    _labelTitle.frame = CGRectMake(0, 10, 70, 24);
+    _labelTitle.text = @"所有照片";
+    [_viewTitle addSubview:_labelTitle];
+    _imageViewDown = [[UIImageView alloc] initWithFrame:CGRectMake(74, 17, 10, 10)];
+    _imageViewDown.image = _image(@"down");
+    [_viewTitle addSubview:_imageViewDown];
+    self.navigationItem.titleView = _viewTitle;
+    
+    
     self.view.backgroundColor = [UIColor whiteColor];
     
-    UIButton* btnLeft = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 48, 48)];
+    UIButton* btnLeft = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 30, 30)];
     [btnLeft addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
-    [btnLeft setImage:[ZQTools image:_image(@"navi_back") withTintColor:ZQChoosePhotoNavBtnColor] forState:UIControlStateNormal];
+    //[ZQTools image:_image(@"close") withTintColor:ZQChoosePhotoNavBtnColor]
+    [btnLeft setImage:_image(@"close") forState:UIControlStateNormal];
     self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnLeft];
     
-    NSString* title = _LocalizedString(@"OPERATION_CANCEL");
-    CGSize s = [title textSizeWithFont:[UIFont systemFontOfSize:17] constrainedToSize:CGSizeMake(999, 999) lineBreakMode:NSLineBreakByWordWrapping];
-    UIButton* btnRight = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, s.width+10, 48)];
+    NSString* title =  @"确定" ;//_LocalizedString(@"OPERATION_CANCEL");
+    CGSize s = [title textSizeWithFont:[UIFont systemFontOfSize:13] constrainedToSize:CGSizeMake(999, 999) lineBreakMode:NSLineBreakByWordWrapping];
+    UIButton* btnRight = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, s.width+32, 30)];
+    btnRight.backgroundColor = [UIColor colorWithRed:251 / 255.0 green:225 / 255.0 blue:89 / 255.0 alpha:1.0];
+    btnRight.layer.cornerRadius = 15.0;
     [btnRight setTitleColor:ZQChoosePhotoNavBtnColor forState:UIControlStateNormal];
-    [btnRight setTitle:title forState:UIControlStateNormal];
-    [btnRight addTarget:self action:@selector(cancel) forControlEvents:UIControlEventTouchUpInside];
+    btnRight.titleLabel.font = [UIFont systemFontOfSize:13 weight:UIFontWeightMedium];
+    [btnRight setTitle:@"完成" forState:UIControlStateNormal];
+    [btnRight addTarget:self action:@selector(finish) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnRight];
     
     UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
@@ -113,6 +143,37 @@ static CGFloat kButtomBarHeight = 48;
     self.tbButtom = [[ZQBottomToolbarView alloc] initWithFrame:CGRectMake(0, y, kTPScreenWidth, kButtomBarHeight)];
     [self.view addSubview:self.tbButtom];
 }
+
+- (void)showList{
+    if (!self.listView) {
+        _listView = [[ZQListView alloc] initWithType:ZQAlbumTypeVideoAndPhoto maxImagesCount:1 bSingleSelection:YES];
+    }
+    __weak typeof(self) weakSelf = self;
+    self.listView.listViewCallBack = ^(ZQAlbumModel * _Nonnull albumModel, ZQAlbumType type, NSInteger maxImagesCount, BOOL bSingleSelection) {
+        __strong typeof(weakSelf) strongSelf = weakSelf;
+        strongSelf.labelTitle.text = albumModel.name;
+        CGFloat viewTitleWidth = [strongSelf.labelTitle sizeThatFits:CGSizeMake(200, 14)].width + 4 + 10;
+        strongSelf.labelTitle.frame = CGRectMake(0, 10, viewTitleWidth - 14, 24);
+        strongSelf.viewTitle.frame= CGRectMake(0, 0, viewTitleWidth, 44);
+        strongSelf.imageViewDown.frame = CGRectMake(viewTitleWidth - 10, 17, 10, 10);
+        strongSelf.type = type;
+        strongSelf.maxImagesCount = maxImagesCount;
+        strongSelf.bSingleSelection = bSingleSelection;
+        strongSelf.mAlbum = albumModel;
+        [strongSelf.cache removeAllObjects];
+        [strongSelf.cacheThumb removeAllObjects];
+        [strongSelf loadData];
+        [strongSelf.collectionView reloadData];
+        [strongSelf scrollToBottom];
+        
+    };
+    [self.listView show];
+}
+
+- (void)finish{
+    
+}
+
 - (void)back {
     [self.navigationController popViewControllerAnimated:YES];
 }
@@ -161,10 +222,12 @@ static CGFloat kButtomBarHeight = 48;
     ce.cancelLoad = NO;
     [ce displayThumb:indexPath cache:self.cacheThumb];
 }
+
 - (void)collectionView:(UICollectionView *)collectionView didEndDisplayingCell:(UICollectionViewCell *)cell forItemAtIndexPath:(NSIndexPath *)indexPath {
     ZQAlbumCell *ce = (ZQAlbumCell *)cell;
     ce.cancelLoad = YES;
 }
+
 - (void)collectionView:(UICollectionView *)collectionView didSelectItemAtIndexPath:(NSIndexPath *)indexPath {
     if (self.type == ZQAlbumTypeVideo) {
         ZQVideoPlayVC *vc = [[ZQVideoPlayVC alloc] init];

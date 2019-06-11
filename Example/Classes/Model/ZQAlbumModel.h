@@ -13,6 +13,7 @@
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *identifier;
 @property (nonatomic, assign) NSUInteger count;
+@property (nonatomic, assign) BOOL isSelected;
 
 @property (nonatomic, strong) id fetchResult;//PHFetchResult<PHAsset *> *
 

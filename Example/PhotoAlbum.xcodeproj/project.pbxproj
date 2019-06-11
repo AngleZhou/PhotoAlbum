@@ -20,6 +20,10 @@
 		6003F5B2195388D20070C39A /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6003F591195388D20070C39A /* UIKit.framework */; };
 		6003F5BA195388D20070C39A /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6003F5B8195388D20070C39A /* InfoPlist.strings */; };
 		873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 873B8AEA1B1F5CCA007FD442 /* Main.storyboard */; };
+		A2D8F2C322AFF82000622D3A /* ZQListView.m in Sources */ = {isa = PBXBuildFile; fileRef = A2D8F2C222AFF82000622D3A /* ZQListView.m */; };
+		A2D8F2C522AFF83300622D3A /* ZQListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2D8F2C422AFF83300622D3A /* ZQListView.xib */; };
+		A2D8F2C922B0043800622D3A /* ZQListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A2D8F2C722B0043800622D3A /* ZQListCell.m */; };
+		A2D8F2CA22B0043800622D3A /* ZQListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2D8F2C822B0043800622D3A /* ZQListCell.xib */; };
 		B24AC8ED1D6C1D0700A4051F /* PA.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B24AC8EB1D6C1D0700A4051F /* PA.bundle */; };
 		B24AC8EE1D6C1D0700A4051F /* ZQAlbumCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B24AC8EC1D6C1D0700A4051F /* ZQAlbumCell.xib */; };
 		B24AC91D1D6C1D0F00A4051F /* .gitkeep in Resources */ = {isa = PBXBuildFile; fileRef = B24AC8F01D6C1D0F00A4051F /* .gitkeep */; };
@@ -85,6 +89,12 @@
 		606FC2411953D9B200FFA9A0 /* Tests-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Tests-Prefix.pch"; sourceTree = "<group>"; };
 		79DC92697CED3339B81882D1 /* README.md */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = net.daringfireball.markdown; name = README.md; path = ../README.md; sourceTree = "<group>"; };
 		873B8AEA1B1F5CCA007FD442 /* Main.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; path = Main.storyboard; sourceTree = "<group>"; };
+		A2D8F2C122AFF82000622D3A /* ZQListView.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZQListView.h; sourceTree = "<group>"; };
+		A2D8F2C222AFF82000622D3A /* ZQListView.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZQListView.m; sourceTree = "<group>"; };
+		A2D8F2C422AFF83300622D3A /* ZQListView.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ZQListView.xib; sourceTree = "<group>"; };
+		A2D8F2C622B0043800622D3A /* ZQListCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZQListCell.h; sourceTree = "<group>"; };
+		A2D8F2C722B0043800622D3A /* ZQListCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZQListCell.m; sourceTree = "<group>"; };
+		A2D8F2C822B0043800622D3A /* ZQListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ZQListCell.xib; sourceTree = "<group>"; };
 		B24AC8EB1D6C1D0700A4051F /* PA.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = PA.bundle; sourceTree = "<group>"; };
 		B24AC8EC1D6C1D0700A4051F /* ZQAlbumCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZQAlbumCell.xib; sourceTree = "<group>"; };
 		B24AC8F01D6C1D0F00A4051F /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
@@ -326,6 +336,12 @@
 				B24AC9121D6C1D0F00A4051F /* ZQAlbumCell.m */,
 				B24AC9131D6C1D0F00A4051F /* ZQAlbumListCell.h */,
 				B24AC9141D6C1D0F00A4051F /* ZQAlbumListCell.m */,
+				A2D8F2C122AFF82000622D3A /* ZQListView.h */,
+				A2D8F2C222AFF82000622D3A /* ZQListView.m */,
+				A2D8F2C422AFF83300622D3A /* ZQListView.xib */,
+				A2D8F2C622B0043800622D3A /* ZQListCell.h */,
+				A2D8F2C722B0043800622D3A /* ZQListCell.m */,
+				A2D8F2C822B0043800622D3A /* ZQListCell.xib */,
 				B24AC9151D6C1D0F00A4051F /* ZQBottomToolbarView.h */,
 				B24AC9161D6C1D0F00A4051F /* ZQBottomToolbarView.m */,
 				B24AC9171D6C1D0F00A4051F /* ZQCropView.h */,
@@ -421,7 +437,7 @@
 				ORGANIZATIONNAME = ZhouQian;
 				TargetAttributes = {
 					6003F589195388D20070C39A = {
-						DevelopmentTeam = 7PZGMQ3B7E;
+						DevelopmentTeam = GT49X56UC2;
 					};
 					6003F5AD195388D20070C39A = {
 						TestTargetID = 6003F589195388D20070C39A;
@@ -437,6 +453,7 @@
 			developmentRegion = English;
 			hasScannedForEncodings = 0;
 			knownRegions = (
+				English,
 				en,
 				Base,
 			);
@@ -457,11 +474,13 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				A2D8F2C522AFF83300622D3A /* ZQListView.xib in Resources */,
 				873B8AEB1B1F5CCA007FD442 /* Main.storyboard in Resources */,
 				6003F5A9195388D20070C39A /* Images.xcassets in Resources */,
 				B24AC8ED1D6C1D0700A4051F /* PA.bundle in Resources */,
 				B24AC91D1D6C1D0F00A4051F /* .gitkeep in Resources */,
 				6003F598195388D20070C39A /* InfoPlist.strings in Resources */,
+				A2D8F2CA22B0043800622D3A /* ZQListCell.xib in Resources */,
 				B24AC8EE1D6C1D0700A4051F /* ZQAlbumCell.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -494,6 +513,7 @@
 				B24AC9271D6C1D0F00A4051F /* ZQAlbumModel.m in Sources */,
 				6003F59E195388D20070C39A /* ZQAppDelegate.m in Sources */,
 				B24AC92E1D6C1D0F00A4051F /* ZQCropView.m in Sources */,
+				A2D8F2C922B0043800622D3A /* ZQListCell.m in Sources */,
 				B24AC9201D6C1D0F00A4051F /* ZQAlbumNavVC.m in Sources */,
 				B24AC92F1D6C1D0F00A4051F /* ZQCropViewOverlay.m in Sources */,
 				B24AC92C1D6C1D0F00A4051F /* ZQAlbumListCell.m in Sources */,
@@ -502,6 +522,7 @@
 				6003F5A7195388D20070C39A /* ZQViewController.m in Sources */,
 				B24AC9251D6C1D0F00A4051F /* ViewUtils.m in Sources */,
 				B24AC9301D6C1D0F00A4051F /* ZQPreviewCell.m in Sources */,
+				A2D8F2C322AFF82000622D3A /* ZQListView.m in Sources */,
 				B24AC9241D6C1D0F00A4051F /* NSString+Size.m in Sources */,
 				B24AC91E1D6C1D0F00A4051F /* PhotoAlbums.m in Sources */,
 				6003F59A195388D20070C39A /* main.m in Sources */,
@@ -642,7 +663,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				DEVELOPMENT_TEAM = 7PZGMQ3B7E;
+				DEVELOPMENT_TEAM = GT49X56UC2;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PhotoAlbum/PhotoAlbum-Prefix.pch";
 				INFOPLIST_FILE = "PhotoAlbum/PhotoAlbum-Info.plist";
@@ -658,7 +679,7 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_LAUNCHIMAGE_NAME = LaunchImage;
-				DEVELOPMENT_TEAM = 7PZGMQ3B7E;
+				DEVELOPMENT_TEAM = GT49X56UC2;
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "PhotoAlbum/PhotoAlbum-Prefix.pch";
 				INFOPLIST_FILE = "PhotoAlbum/PhotoAlbum-Info.plist";

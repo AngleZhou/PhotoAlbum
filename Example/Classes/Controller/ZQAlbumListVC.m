@@ -48,6 +48,9 @@
     
     self.navigationItem.title = _LocalizedString(@"PHOTO");
     
+    
+   
+    
     CGFloat topMargin = self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height;
     CGRect tableViewFrame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y+topMargin, kTPScreenWidth, kTPScreenHeight-topMargin);
     self.tableView = [[UITableView alloc] initWithFrame:tableViewFrame style:(UITableViewStylePlain)];

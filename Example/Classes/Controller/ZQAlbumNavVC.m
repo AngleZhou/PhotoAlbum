@@ -61,6 +61,9 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationBar.translucent = YES;
+    
+  
+    
 //#pragma clang diagnostic push
 //#pragma clang diagnostic ignored "-Wdeprecated-declarations"
 //    UIBarButtonItem *barItem;
