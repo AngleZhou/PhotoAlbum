@@ -27,41 +27,36 @@
                                   type:(ZQAlbumType)type
                          bSingleSelect:(BOOL)bSingleSelect
 {
-        ZQAlbumListVC *lvc = [[ZQAlbumListVC alloc] init];
-        lvc.type = type;
-        lvc.bSingleSelection = bSingleSelect;
-        
-        self = [super initWithRootViewController:lvc];
-        _maxImagesCount = maxImagesCount;
-        
-        ______WX(lvc, wlvc);
-        ______WS();
-        [ProgressHUD show];
-        lvc.dataLoaded = ^(NSArray<ZQAlbumModel*>*Albums) {
-            [ProgressHUD hide];
-            
-            if (wlvc.albums.count > 0) {
-                ZQAlbumVC *vc = [[ZQAlbumVC alloc] init];
-                vc.type = type;
-                vc.maxImagesCount = maxImagesCount;
-                vc.mAlbum = wlvc.albums[0];
-                vc.bSingleSelection = bSingleSelect;
-                [wSelf pushViewController:vc animated:NO];
-            }
-            else {
-                //一个相册也没有。。。ZQAlbumListVC显示无照片；相册获取的时候，无照片的相册被跳过
-            }
-            
-        };
+    [ProgressHUD show];
+    NSArray<ZQAlbumModel *> *albums = [ZQPhotoFetcher getAllAlbumsWithType:type];
+    if (albums.count == 0) {
+    
+      [ProgressHUD hide];
+        return nil;
+    }
+    
+//        ZQAlbumListVC *lvc = [[ZQAlbumListVC alloc] init];
+//        lvc.type = type;
+//        lvc.bSingleSelection = bSingleSelect;
+    [ProgressHUD hide];
+      ZQAlbumVC *vc = [[ZQAlbumVC alloc] init];
+      vc.type = type;
+      vc.maxImagesCount = maxImagesCount;
+      vc.mAlbum = albums[0];
+      vc.bSingleSelection = bSingleSelect;
+        self = [super initWithRootViewController:vc];
+     _maxImagesCount = maxImagesCount;
+    
+    
         return self;
         
 }
 
 
+
 - (void)viewDidLoad {
     [super viewDidLoad];
     self.navigationBar.translucent = YES;
-    
   
     
 //#pragma clang diagnostic push
