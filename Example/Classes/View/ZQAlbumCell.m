@@ -57,8 +57,8 @@
 
 - (void)setBSingleSelection:(BOOL)bSingleSelection {
     _bSingleSelection = bSingleSelection;
-    self.ivSelect.hidden = bSingleSelection;
-    self.vTap.hidden = bSingleSelection;
+    self.ivSelect.hidden = NO;
+    self.vTap.hidden = NO;
 }
 
 - (void)setBSelected:(BOOL)bSelected {

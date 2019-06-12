@@ -49,14 +49,14 @@
         message = [navVC.albumDelegate ZQAlbumNavVCExceedMaxImageCountMessage:navVC.maxImagesCount];
     }
     else {
-        message = [NSString stringWithFormat:_LocalizedString(@"PHOTO_MAX_SELECTION"), maxImagesCount];
+        message = [NSString stringWithFormat:@"你最多只能选择%ld张照片",maxImagesCount];
     }
     
     UIAlertController *alertC = [UIAlertController alertControllerWithTitle:nil
                                                                     message:message
                                                              preferredStyle:(UIAlertControllerStyleAlert)];
     
-    UIAlertAction *ok = [UIAlertAction actionWithTitle:_LocalizedString(@"OPERATION_OK")
+    UIAlertAction *ok = [UIAlertAction actionWithTitle:@"好的"
                                                  style:(UIAlertActionStyleDefault)
                                                handler:^(UIAlertAction * _Nonnull action) {
         
