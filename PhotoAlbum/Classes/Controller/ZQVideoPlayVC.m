@@ -85,7 +85,7 @@
 - (void)setModel:(ZQPhotoModel *)model {
     _model = model;
     ______WS();
-    [ZQPhotoFetcher getVideoWithAssets:self.model.asset completionHandler:^(AVPlayerItem * _Nullable playerItem, NSDictionary * _Nullable info) {
+    [ZQPhotoFetcher getVideoWithAssets:self.model.asset completion:^(AVPlayerItem * _Nullable playerItem, NSDictionary * _Nullable info) {
         wSelf.player = [AVPlayer playerWithPlayerItem:playerItem];
         dispatch_async(dispatch_get_main_queue(), ^{
             [[NSNotificationCenter defaultCenter] addObserver:wSelf selector:@selector(playerItemDidReachEnd:) name:AVPlayerItemDidPlayToEndTimeNotification object:wSelf.player.currentItem];
@@ -127,7 +127,7 @@
     
     ______WS();
     
-    [ZQPhotoFetcher getPhotoFastWithAssets:self.model.asset photoWidth:kTPScreenWidth completionHandler:^(UIImage * _Nullable image, NSDictionary * _Nullable info) {
+    [ZQPhotoFetcher getPhotoFastWithAssets:self.model.asset photoWidth:kTPScreenWidth completion:^(UIImage * _Nullable image, NSDictionary * _Nullable info) {
         
         ZQAlbumNavVC *nav = (ZQAlbumNavVC *)wSelf.navigationController;
         wSelf.exportImage = image;//先存小图，再存大图
@@ -141,7 +141,7 @@
     [ZQPhotoFetcher exportVideoDegradedWithAssets:self.model.asset progress:^(CGFloat progress) {
         //在progressHUD上加一个progress label
         [ProgressHUD sharedInstance].progress = progress;
-    } completionHandler:^(AVAsset * _Nullable playerAsset, NSDictionary * _Nullable info, NSURL * _Nullable url) {
+    } completion:^(AVAsset * _Nullable playerAsset, NSDictionary * _Nullable info, NSURL * _Nullable url) {
         ZQAlbumNavVC *nav = (ZQAlbumNavVC *)wSelf.navigationController;
         dispatch_async(dispatch_get_main_queue(), ^{
             [ProgressHUD hide];

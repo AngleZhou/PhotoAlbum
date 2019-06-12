@@ -7,11 +7,18 @@
 //
 
 #import <Foundation/Foundation.h>
+#import <Photos/Photos.h>
 
 @interface ZQAlbumModel : NSObject
 @property (nonatomic, copy) NSString *name;
 @property (nonatomic, copy) NSString *identifier;
 @property (nonatomic, assign) NSUInteger count;
+@property (nonatomic, assign) BOOL isSelected;
 
 @property (nonatomic, strong) id fetchResult;//PHFetchResult<PHAsset *> *
+
+- (instancetype)initWithPHAssetCollection:(PHAssetCollection *)collection
+                                  options:(PHFetchOptions *)options;
+
+
 @end

@@ -26,10 +26,12 @@
 
 
 - (void)awakeFromNib {
+    [super awakeFromNib];
+    
     self.frame = CGRectMake(0, 0, kAlbumCellWidth, kAlbumCellWidth);
     self.imageView.contentMode = UIViewContentModeScaleAspectFill;
     self.imageView.layer.masksToBounds = YES;
-    
+
     UIImage *image = _image(@"photo_def_photoPickerVC");
     self.ivSelect.image = image;
     CGFloat vTapWidth = image.size.width*2;
@@ -37,7 +39,6 @@
     [self.vTap addTarget:self action:@selector(tapppp) forControlEvents:(UIControlEventTouchUpInside)];
     [self.contentView addSubview:self.vTap];
     self.vTap.backgroundColor = [UIColor clearColor];
-    
 }
 
 - (void)tapppp {
@@ -56,8 +57,8 @@
 
 - (void)setBSingleSelection:(BOOL)bSingleSelection {
     _bSingleSelection = bSingleSelection;
-    self.ivSelect.hidden = bSingleSelection;
-    self.vTap.hidden = bSingleSelection;
+    self.ivSelect.hidden = NO;
+    self.vTap.hidden = NO;
 }
 
 - (void)setBSelected:(BOOL)bSelected {
@@ -82,7 +83,7 @@
             self.imageView.image = image;
         }
         else {
-            self.model.requestID = [ZQPhotoFetcher getPhotoFastWithAssets:self.model.asset photoWidth:width completionHandler:^(UIImage * _Nullable image, NSDictionary * _Nullable info) {
+            self.model.requestID = [ZQPhotoFetcher getPhotoFastWithAssets:self.model.asset photoWidth:width completion:^(UIImage * _Nullable image, NSDictionary * _Nullable info) {
                 if (!wSelf.cancelLoad && wSelf.tag == indexPath.row) {
                     dispatch_async(dispatch_get_main_queue(), ^{
                         if (image) {

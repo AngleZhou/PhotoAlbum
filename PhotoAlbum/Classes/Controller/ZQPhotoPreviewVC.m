@@ -48,78 +48,6 @@
     [self.cache removeAllObjects];
 }
 
-- (void)initUI {
-    
-    self.view.backgroundColor = [UIColor blackColor];
-    [self.navigationController.navigationBar setBackgroundImage:[ZQTools createImageWithColor:kLightBottomBarBGColor] forBarMetrics:UIBarMetricsDefault];
-    UIButton* btnLeft = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 48, 48)];
-    [btnLeft addTarget:self action:@selector(back) forControlEvents:UIControlEventTouchUpInside];
-    
-    [btnLeft setImage:[ZQTools image:_image(@"navi_back") withTintColor:[UIColor whiteColor]] forState:UIControlStateNormal];
-    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnLeft];
-    
-    if (!self.bSingleSelect) {
-        CGSize size = _image(@"photo_def_photoPickerVC").size;
-        self.btnSelect = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
-        [self.btnSelect setImage:_image(@"photo_def_photoPickerVC") forState:(UIControlStateNormal)];
-        [self.btnSelect setImage:_image(@"photo_sel_photoPickerVc") forState:(UIControlStateSelected)];
-        self.btnSelect.selected = NO;
-        [self.btnSelect addTarget:self action:@selector(selectPhoto) forControlEvents:(UIControlEventTouchUpInside)];
-        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.btnSelect];
-    }
-    
-    
-    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
-    layout.itemSize = CGSizeMake(kTPScreenWidth, kTPScreenHeight);
-    layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
-    layout.minimumLineSpacing = 0;
-    layout.minimumInteritemSpacing = 0;
-    
-    CGRect rect = CGRectMake(self.view.origin.x, self.view.origin.y, kTPScreenWidth, kTPScreenHeight);
-    self.collectionView = [[UICollectionView alloc] initWithFrame:rect collectionViewLayout:layout];
-    self.collectionView.delegate = self;
-    self.collectionView.dataSource = self;
-    self.collectionView.pagingEnabled = YES;
-    [self.view addSubview:self.collectionView];
-    [self.collectionView registerClass:[ZQPreviewCell class] forCellWithReuseIdentifier:NSStringFromClass([ZQPreviewCell class])];
-    
-    NSIndexPath *idx = [NSIndexPath indexPathForItem:self.currentIdx inSection:0];
-    [self.collectionView scrollToItemAtIndexPath:idx atScrollPosition:(UICollectionViewScrollPositionLeft) animated:NO];
-    
-    CGFloat y = kTPScreenHeight - kBottomToolbarHeight;
-    self.bottomBar = [[ZQBottomToolbarView alloc] initWithFrame:CGRectMake(0, y, kTPScreenWidth, kBottomToolbarHeight)];
-    [self.view addSubview:self.bottomBar];
-    self.bottomBar.btnPreview.hidden = YES;
-    self.bottomBar.vLine.hidden = YES;
-    self.bottomBar.selectedNum = self.selected.count;
-    self.bottomBar.bSingleSelection = self.bSingleSelect;
-    [self.bottomBar selectionChange:self.selected];
-    if (self.bSingleSelect) {
-        [self.bottomBar.btnFinish setTitle:_LocalizedString(@"OPERATION_SELECT") forState:(UIControlStateNormal)];
-        self.bottomBar.btnFinish.enabled = YES;
-        [self.bottomBar.btnFinish sizeToFit];
-        CGRect frame = self.bottomBar.frame;
-        self.bottomBar.btnFinish.frame = CGRectMake(frame.origin.x+frame.size.width-self.bottomBar.btnFinish.width-16, 0.5, self.bottomBar.btnFinish.frame.size.width, frame.size.height);
-    }
-
-    //单选隐藏nav bar
-    [self.navigationController setNavigationBarHidden:self.bSingleSelect animated:NO];
-    
-    ZQAlbumNavVC *nav = (ZQAlbumNavVC *)self.navigationController;
-    if (self.bSingleSelect && nav.bEnableCrop) {
-        self.cropOverlay = [[ZQCropViewOverlay alloc] init];
-        [self.view addSubview:self.cropOverlay];
-        self.bottomBar.hidden = YES;
-    }
-    else {
-        self.bottomBar.backgroundColor = kLightBottomBarBGColor;
-    }
-}
-- (void)back {
-    [self.navigationController popViewControllerAnimated:YES];
-}
-
-
 - (void)viewWillAppear:(BOOL)animated {
     [super viewWillAppear:animated];
     ZQPhotoModel *model = self.models[self.currentIdx];
@@ -133,6 +61,9 @@
     [super viewWillDisappear:animated];
 }
 
+
+
+#pragma mark -
 
 
 - (void)getCurrentCrop:(CGRect)rect {
@@ -228,6 +159,113 @@
         wSelf.bottomBar.origin = CGPointMake(0, newY);
     }];
 
+}
+
+#pragma mark - UI
+
+- (void)initUI {
+    
+    self.view.backgroundColor = [UIColor blackColor];
+    [self setupNavBar];
+    
+    [self setupSelectBtnIfMultiSelect];
+    
+    [self setupCollectionView];
+    
+    [self setupButtomBar];
+    
+    [self hideNavBarIfSingleSelect];
+    
+    [self setupCropOverlay];
+}
+
+- (void)setupNavBar {
+    [self.navigationController.navigationBar setBackgroundImage:[ZQTools createImageWithColor:kLightBottomBarBGColor]
+                                                  forBarMetrics:UIBarMetricsDefault];
+    UIButton* btnLeft = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, 48, 48)];
+    [btnLeft addTarget:self
+                action:@selector(back)
+      forControlEvents:UIControlEventTouchUpInside];
+    
+    [btnLeft setImage:[ZQTools image:_image(@"navi_back") withTintColor:[UIColor whiteColor]]
+             forState:UIControlStateNormal];
+    self.navigationItem.leftBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnLeft];
+}
+
+- (void)setupSelectBtnIfMultiSelect {
+    if (!self.bSingleSelect) {
+        CGSize size = _image(@"photo_def_photoPickerVC").size;
+        self.btnSelect = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, size.width, size.height)];
+        [self.btnSelect setImage:_image(@"photo_def_photoPickerVC") forState:(UIControlStateNormal)];
+        [self.btnSelect setImage:_image(@"photo_sel_photoPickerVc") forState:(UIControlStateSelected)];
+        self.btnSelect.selected = NO;
+        [self.btnSelect addTarget:self
+                           action:@selector(selectPhoto)
+                 forControlEvents:(UIControlEventTouchUpInside)];
+        self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:self.btnSelect];
+    }
+}
+
+- (void)hideNavBarIfSingleSelect {
+    [self.navigationController setNavigationBarHidden:self.bSingleSelect animated:NO];
+}
+
+- (void)setupCollectionView {
+    UICollectionViewFlowLayout *layout = [[UICollectionViewFlowLayout alloc] init];
+    layout.itemSize = CGSizeMake(kTPScreenWidth, kTPScreenHeight);
+    layout.scrollDirection = UICollectionViewScrollDirectionHorizontal;
+    layout.minimumLineSpacing = 0;
+    layout.minimumInteritemSpacing = 0;
+    
+    CGRect rect = CGRectMake(self.view.origin.x, self.view.origin.y, kTPScreenWidth, kTPScreenHeight);
+    self.collectionView = [[UICollectionView alloc] initWithFrame:rect collectionViewLayout:layout];
+    self.collectionView.delegate = self;
+    self.collectionView.dataSource = self;
+    self.collectionView.pagingEnabled = YES;
+    [self.view addSubview:self.collectionView];
+    [self.collectionView registerClass:[ZQPreviewCell class] forCellWithReuseIdentifier:NSStringFromClass([ZQPreviewCell class])];
+    
+    NSIndexPath *idx = [NSIndexPath indexPathForItem:self.currentIdx inSection:0];
+    [self.collectionView scrollToItemAtIndexPath:idx atScrollPosition:(UICollectionViewScrollPositionLeft) animated:NO];
+}
+
+- (void)setupButtomBar {
+    CGFloat y = kTPScreenHeight - kBottomToolbarHeight;
+    self.bottomBar = [[ZQBottomToolbarView alloc] initWithFrame:CGRectMake(0, y, kTPScreenWidth, kBottomToolbarHeight)];
+    [self.view addSubview:self.bottomBar];
+    self.bottomBar.btnPreview.hidden = YES;
+    self.bottomBar.vLine.hidden = YES;
+    self.bottomBar.selectedNum = self.selected.count;
+    self.bottomBar.bSingleSelection = self.bSingleSelect;
+    [self.bottomBar selectionChange:self.selected];
+    if (self.bSingleSelect) {
+        [self.bottomBar.btnFinish setTitle:_LocalizedString(@"OPERATION_SELECT")
+                                  forState:(UIControlStateNormal)];
+        self.bottomBar.btnFinish.enabled = YES;
+        [self.bottomBar.btnFinish sizeToFit];
+        CGRect frame = self.bottomBar.frame;
+        self.bottomBar.btnFinish.frame = CGRectMake(frame.origin.x+frame.size.width-self.bottomBar.btnFinish.width-16,
+                                                    0.5,
+                                                    self.bottomBar.btnFinish.frame.size.width,
+                                                    frame.size.height);
+    }
+}
+
+- (void)setupCropOverlay {
+    ZQAlbumNavVC *nav = (ZQAlbumNavVC *)self.navigationController;
+    if (self.bSingleSelect && nav.bEnableCrop) {
+        self.cropOverlay = [[ZQCropViewOverlay alloc] init];
+        [self.view addSubview:self.cropOverlay];
+        self.bottomBar.hidden = YES;
+    }
+    else {
+        self.bottomBar.backgroundColor = kLightBottomBarBGColor;
+    }
+}
+
+
+- (void)back {
+    [self.navigationController popViewControllerAnimated:YES];
 }
 
 #pragma mark - Getter

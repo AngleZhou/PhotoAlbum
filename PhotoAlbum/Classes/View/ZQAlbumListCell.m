@@ -21,7 +21,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         self.selectionStyle = UITableViewCellSelectionStyleNone;
-        self.ivCover = [[UIImageView alloc] initWithFrame:CGRectMake(5.0, 5.0, AlbumListCellHeight - 10.0, AlbumListCellHeight - 10.0)];
+        self.ivCover = [[UIImageView alloc] initWithFrame:CGRectMake(0, 0, AlbumListCellHeight, AlbumListCellHeight)];
         self.ivCover.contentMode = UIViewContentModeScaleAspectFill;
         self.ivCover.clipsToBounds = YES;
         [self.contentView addSubview:self.ivCover];
@@ -38,7 +38,7 @@
     _model = model;
     UIFont *font = [UIFont systemFontOfSize:16];
     NSMutableAttributedString *nameString = [[NSMutableAttributedString alloc] initWithString:model.name attributes:@{NSFontAttributeName:font, NSForegroundColorAttributeName:[UIColor blackColor]}];
-    NSAttributedString *countString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"  (%zd)", model.count] attributes:@{NSFontAttributeName:font, NSForegroundColorAttributeName:[UIColor lightGrayColor]}];
+    NSAttributedString *countString = [[NSAttributedString alloc] initWithString:[NSString stringWithFormat:@"  (%ld)", (unsigned long)model.count] attributes:@{NSFontAttributeName:font, NSForegroundColorAttributeName:[UIColor lightGrayColor]}];
     [nameString appendAttributedString:countString];
     self.lblTitle.attributedText = nameString;
     __weak __typeof(&*self) wSelf = self;

@@ -32,7 +32,7 @@
     [super viewDidLoad];
     [self initUI];
     if ([ZQPhotoFetcher authorizationStatusAuthorized]) {
-        [self loadAlbums];
+        [self loadAllAlbums];
     }
     
 }
@@ -47,6 +47,9 @@
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnRight];
     
     self.navigationItem.title = _LocalizedString(@"PHOTO");
+    
+    
+   
     
     CGFloat topMargin = self.navigationController.navigationBar.frame.size.height + [UIApplication sharedApplication].statusBarFrame.size.height;
     CGRect tableViewFrame = CGRectMake(self.view.frame.origin.x, self.view.frame.origin.y+topMargin, kTPScreenWidth, kTPScreenHeight-topMargin);
@@ -63,20 +66,19 @@
     [self.navigationController.presentingViewController dismissViewControllerAnimated:YES completion:nil];
 }
 
-- (void)loadAlbums {
-    ______WS();
-    [ZQPhotoFetcher getAllAlbumsWithType:self.type completion:^(NSArray<ZQAlbumModel *> * _Nonnull albums) {
-        wSelf.albums = albums;
-        if (albums.count == 0) {
-            [wSelf noPhoto];
-        }
-        
-        if (wSelf.dataLoaded) {
-            wSelf.dataLoaded(albums);
-        }
-        [wSelf.tableView reloadData];
-        
-    }];
+
+- (void)loadAllAlbums {
+    NSArray<ZQAlbumModel *> *albums = [ZQPhotoFetcher getAllAlbumsWithType:self.type];
+    self.albums = albums;
+    if (albums.count == 0) {
+        [self noPhoto];
+    }
+    
+    if (self.dataLoaded) {
+        self.dataLoaded(albums);
+    }
+    [self.tableView reloadData];
+
 }
 
 - (void)noPhoto {

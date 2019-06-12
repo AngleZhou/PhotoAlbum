@@ -8,8 +8,9 @@
 
 #import <Foundation/Foundation.h>
 #import <UIKit/UIKit.h>
+#import <Photos/Photos.h>
 
-@class PHAsset;
+
 @interface ZQPhotoModel : NSObject
 @property (nonatomic, strong) PHAsset *asset;
 @property (nonatomic, strong) NSData *data;
@@ -17,4 +18,7 @@
 @property (nonatomic, assign) BOOL bSelected;
 @property (nonatomic, assign) int32_t requestID;
 //@property (nonatomic, strong) UIImage *videoCoverImage;
+
+- (instancetype)initWithPHAsset:(PHAsset *)asset;
+
 @end

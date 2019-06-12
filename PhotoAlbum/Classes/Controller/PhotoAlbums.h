@@ -29,7 +29,12 @@
  *  @param delegate       <#delegate description#>
  *  @param finishBlock    图片选择回调
  */
-+ (void)photoWithMaxImagesCount:(NSInteger)maxImagesCount type:(ZQAlbumType)type bSingleSelect:(BOOL)bSingleSelect crop:(BOOL)bEnableCrop delegate:(id)delegate didFinishPhotoBlock:(void (^)(NSArray<UIImage*> *photos))finishBlock;
++ (void)photoWithMaxImagesCount:(NSInteger)maxImagesCount
+                           type:(ZQAlbumType)type
+                  bSingleSelect:(BOOL)bSingleSelect
+                           crop:(BOOL)bEnableCrop
+                       delegate:(id)delegate
+            didFinishPhotoBlock:(void (^)(NSArray<UIImage*> *photos))finishBlock;
 
 
 /**
@@ -39,7 +44,9 @@
  *  @param delegate    <#delegate description#>
  *  @param finishBlock 选择后返回UIImage数组，只有一个UIImage
  */
-+ (void)photoSingleSelectWithCrop:(BOOL)crop delegate:(id)delegate didFinishPhotoBlock:(void (^)(NSArray<UIImage*> *photos))finishBlock;
++ (void)photoSingleSelectWithCrop:(BOOL)crop
+                         delegate:(id)delegate
+              didFinishPhotoBlock:(void (^)(NSArray<UIImage*> *photos))finishBlock;
 
 
 /**
@@ -49,7 +56,9 @@
  *  @param delegate       <#delegate description#>
  *  @param finishBlock    选择后返回UIImage数组
  */
-+ (void)photoMultiSelectWithMaxImagesCount:(NSInteger)maxImagesCount delegate:(id)delegate didFinishPhotoBlock:(void (^)(NSArray<UIImage*> *photos))finishBlock;
++ (void)photoMultiSelectWithMaxImagesCount:(NSInteger)maxImagesCount
+                                  delegate:(id)delegate
+                       didFinishPhotoBlock:(void (^)(NSArray<UIImage*> *photos))finishBlock;
 
 
 

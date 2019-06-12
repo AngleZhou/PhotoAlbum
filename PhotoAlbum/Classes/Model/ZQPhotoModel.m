@@ -10,4 +10,14 @@
 
 @implementation ZQPhotoModel
 
+- (instancetype)initWithPHAsset:(PHAsset *)asset
+{
+    self = [super init];
+    if (self) {
+        _asset = asset;
+        _bSelected = NO;
+        _duration = asset.duration;
+    }
+    return self;
+}
 @end
