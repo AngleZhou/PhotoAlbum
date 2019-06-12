@@ -24,6 +24,7 @@
 		A2D8F2C522AFF83300622D3A /* ZQListView.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2D8F2C422AFF83300622D3A /* ZQListView.xib */; };
 		A2D8F2C922B0043800622D3A /* ZQListCell.m in Sources */ = {isa = PBXBuildFile; fileRef = A2D8F2C722B0043800622D3A /* ZQListCell.m */; };
 		A2D8F2CA22B0043800622D3A /* ZQListCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = A2D8F2C822B0043800622D3A /* ZQListCell.xib */; };
+		A2D8F2DF22B1418A00622D3A /* PanTableView.m in Sources */ = {isa = PBXBuildFile; fileRef = A2D8F2DD22B1418900622D3A /* PanTableView.m */; };
 		B24AC8ED1D6C1D0700A4051F /* PA.bundle in Resources */ = {isa = PBXBuildFile; fileRef = B24AC8EB1D6C1D0700A4051F /* PA.bundle */; };
 		B24AC8EE1D6C1D0700A4051F /* ZQAlbumCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B24AC8EC1D6C1D0700A4051F /* ZQAlbumCell.xib */; };
 		B24AC91D1D6C1D0F00A4051F /* .gitkeep in Resources */ = {isa = PBXBuildFile; fileRef = B24AC8F01D6C1D0F00A4051F /* .gitkeep */; };
@@ -95,6 +96,8 @@
 		A2D8F2C622B0043800622D3A /* ZQListCell.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = ZQListCell.h; sourceTree = "<group>"; };
 		A2D8F2C722B0043800622D3A /* ZQListCell.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ZQListCell.m; sourceTree = "<group>"; };
 		A2D8F2C822B0043800622D3A /* ZQListCell.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = ZQListCell.xib; sourceTree = "<group>"; };
+		A2D8F2DD22B1418900622D3A /* PanTableView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PanTableView.m; sourceTree = "<group>"; };
+		A2D8F2DE22B1418A00622D3A /* PanTableView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PanTableView.h; sourceTree = "<group>"; };
 		B24AC8EB1D6C1D0700A4051F /* PA.bundle */ = {isa = PBXFileReference; lastKnownFileType = "wrapper.plug-in"; path = PA.bundle; sourceTree = "<group>"; };
 		B24AC8EC1D6C1D0700A4051F /* ZQAlbumCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = ZQAlbumCell.xib; sourceTree = "<group>"; };
 		B24AC8F01D6C1D0F00A4051F /* .gitkeep */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = .gitkeep; sourceTree = "<group>"; };
@@ -336,6 +339,8 @@
 				B24AC9121D6C1D0F00A4051F /* ZQAlbumCell.m */,
 				B24AC9131D6C1D0F00A4051F /* ZQAlbumListCell.h */,
 				B24AC9141D6C1D0F00A4051F /* ZQAlbumListCell.m */,
+				A2D8F2DE22B1418A00622D3A /* PanTableView.h */,
+				A2D8F2DD22B1418900622D3A /* PanTableView.m */,
 				A2D8F2C122AFF82000622D3A /* ZQListView.h */,
 				A2D8F2C222AFF82000622D3A /* ZQListView.m */,
 				A2D8F2C422AFF83300622D3A /* ZQListView.xib */,
@@ -520,6 +525,7 @@
 				B24AC9231D6C1D0F00A4051F /* ZQVideoPlayVC.m in Sources */,
 				B24AC9281D6C1D0F00A4051F /* ZQPhotoFetcher.m in Sources */,
 				6003F5A7195388D20070C39A /* ZQViewController.m in Sources */,
+				A2D8F2DF22B1418A00622D3A /* PanTableView.m in Sources */,
 				B24AC9251D6C1D0F00A4051F /* ViewUtils.m in Sources */,
 				B24AC9301D6C1D0F00A4051F /* ZQPreviewCell.m in Sources */,
 				A2D8F2C322AFF82000622D3A /* ZQListView.m in Sources */,
