@@ -171,7 +171,7 @@ static NSString *const identifier = @"ZQListCell";
 - (void)show{
     if (self.superview) {
         self.hidden = NO;
-        self.ivAlpha.hidden = YES;
+        self.ivAlpha.hidden = NO;
         dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.01 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
             [UIView animateWithDuration:0.25 animations:^{
                 self.ivAlpha.backgroundColor = [[UIColor blackColor] colorWithAlphaComponent:0.6];
