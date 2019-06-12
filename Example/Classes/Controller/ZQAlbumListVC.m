@@ -78,7 +78,6 @@
         self.dataLoaded(albums);
     }
     [self.tableView reloadData];
-
 }
 
 - (void)noPhoto {
