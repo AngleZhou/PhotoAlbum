@@ -10,7 +10,7 @@
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface PanTableView : UITableView<UIGestureRecognizerDelegate>
+@interface ZQPanTableView : UITableView<UIGestureRecognizerDelegate>
 
 @end
 

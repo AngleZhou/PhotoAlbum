@@ -18,7 +18,7 @@
 #import "ZQPublic.h"
 #import "NSString+Size.h"
 #import "ViewUtils.h"
-#import "PanTableView.h"
+#import "ZQPanTableView.h"
 
 #define screenWidth  [UIScreen mainScreen].bounds.size.width
 #define screenHeight  [UIScreen mainScreen].bounds.size.height
@@ -32,7 +32,7 @@ static NSString *const identifier = @"ZQListCell";
 
 @interface ZQListView ()<UITableViewDelegate,UITableViewDataSource>
 
-@property (weak, nonatomic) IBOutlet PanTableView *tableView;
+@property (weak, nonatomic) IBOutlet ZQPanTableView *tableView;
 
 @property (nonatomic, strong) UIView *ivAlpha;
 
