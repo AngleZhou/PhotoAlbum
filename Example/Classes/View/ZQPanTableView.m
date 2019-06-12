@@ -6,9 +6,9 @@
 //  Copyright © 2019 Dope. All rights reserved.
 //
 
-#import "PanTableView.h"
+#import "ZQPanTableView.h"
 
-@implementation PanTableView
+@implementation ZQPanTableView
 
 /*
 // Only override drawRect: if you perform custom drawing.
