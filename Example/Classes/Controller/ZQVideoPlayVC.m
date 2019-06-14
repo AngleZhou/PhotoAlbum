@@ -108,6 +108,7 @@
 - (void)applicationDidEnterBackground:(NSNotification *)note {
     [self pause];
 }
+
 - (void)okVideoSelect {
     NSTimeInterval maxDur = ((ZQAlbumNavVC *)self.navigationController).maxVideoDurationInSeconds;
     if (maxDur > 0.01 && self.model.asset.duration > maxDur) {

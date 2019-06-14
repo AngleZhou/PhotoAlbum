@@ -34,7 +34,7 @@
 }
 
 - (IBAction)video:(id)sender {
-    [PhotoAlbums photoVideoWithMaxDurtion:3 Delegate:self updateUIFinishPickingBlock:nil didFinishPickingVideoHandle:^(NSURL *url, UIImage *cover, id avAsset) {
+    [PhotoAlbums photoVideoWithMaxDurtion:60 Delegate:self updateUIFinishPickingBlock:nil didFinishPickingVideoHandle:^(NSURL *url, UIImage *cover, id avAsset) {
         NSLog(@"%@", url);
         NSLog(@"%@", cover);
         NSLog(@"%@", avAsset);

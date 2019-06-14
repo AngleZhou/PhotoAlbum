@@ -87,7 +87,7 @@
     if (self.lblProgress.hidden == YES) {
         self.lblProgress.hidden = NO;
         self.hUDIndicatorView.hidden = YES;
-        self.hUDLable.text = _LocalizedString(@"TRIP_CONTENT_VIDEO_COMPRESSING");
+        self.hUDLable.text = @"正在压缩";
     }
     self.lblProgress.text = [NSString stringWithFormat:@"%.0f%%", progress*100];
     
