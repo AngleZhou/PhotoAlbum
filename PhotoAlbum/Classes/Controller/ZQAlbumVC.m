@@ -48,6 +48,8 @@ static CGFloat kButtomBarHeight = 48;
 @property (nonatomic, strong) UIView *viewTitle;
 @property (nonatomic, strong) UIImageView *imageViewDown;
 
+@property (nonatomic, strong) UIImage *exportImage;
+
 @end
 @implementation ZQAlbumVC{
     UIButton* btnRight;
@@ -97,7 +99,7 @@ static CGFloat kButtomBarHeight = 48;
 
 - (void)initUI {
 //    self.navigationItem.title = self.mAlbum.name;
-    
+    priSeleted = self.mAlbum;
     _viewTitle = [[UIView alloc] initWithFrame:CGRectMake(0, 0, 81, 44)];
     UIButton *btn = [[UIButton alloc] init];
     btn.frame = _viewTitle.bounds;
@@ -107,7 +109,7 @@ static CGFloat kButtomBarHeight = 48;
     _labelTitle.textColor = [UIColor darkTextColor];
     _labelTitle.font = [UIFont systemFontOfSize:17 weight:UIFontWeightSemibold];
     _labelTitle.frame = CGRectMake(0, 10, 70, 24);
-    _labelTitle.text = @"所有照片";
+    _labelTitle.text = (self.type == ZQAlbumTypePhoto) ? @"所有照片" : @"所有视频";
     [_viewTitle addSubview:_labelTitle];
     _imageViewDown = [[UIImageView alloc] initWithFrame:CGRectMake(74, 17, 10, 10)];
     _imageViewDown.image = _image(@"down");
@@ -163,11 +165,14 @@ static CGFloat kButtomBarHeight = 48;
     __weak typeof(self) weakSelf = self;
     self.listView.listViewCallBack = ^(ZQAlbumModel * _Nonnull albumModel, ZQAlbumType type, NSInteger maxImagesCount, BOOL bSingleSelection) {
         __strong typeof(weakSelf) strongSelf = weakSelf;
-        if (priSeleted && priSeleted != albumModel) {
+        if (priSeleted && ![priSeleted.name isEqualToString: albumModel.name]) {
             [strongSelf.selected removeAllObjects];
             CGSize s = [@"完成" textSizeWithFont:[UIFont systemFontOfSize:13] constrainedToSize:CGSizeMake(999, 999) lineBreakMode:NSLineBreakByWordWrapping];
             [btnRight setTitle:@"完成" forState:UIControlStateNormal];
             btnRight.frame = CGRectMake(0, 0, s.width+32, 30);
+        }
+        if (priSeleted && [priSeleted.name isEqualToString: albumModel.name]) {
+            return;
         }
         strongSelf.labelTitle.text = albumModel.name;
         priSeleted = albumModel;
@@ -272,6 +277,10 @@ static CGFloat kButtomBarHeight = 48;
     [ProgressHUD show];
     ______WS();
     
+    if (self.type == ZQAlbumTypeVideo) {
+        [self okVideoSelect];
+        return;
+    }
     NSMutableArray *resultImg = [NSMutableArray new];
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_HIGH, 0), ^{
         __block dispatch_group_t group = dispatch_group_create();
@@ -323,6 +332,61 @@ static CGFloat kButtomBarHeight = 48;
         });
     });
 }
+
+- (void)okVideoSelect {
+    if (self.selected.count == 0) {
+         [ProgressHUD hide];
+         ZQAlbumNavVC *nav = (ZQAlbumNavVC *)self.navigationController;
+        [nav dismissViewControllerAnimated:YES completion:nil];
+        return;
+    }
+    NSTimeInterval maxDur = ((ZQAlbumNavVC *)self.navigationController).maxVideoDurationInSeconds;
+    ZQPhotoModel *model = self.selected[0];
+    if (maxDur > 0.01 && model.asset.duration > maxDur) {
+        [ProgressHUD hide];
+        NSString* message = [NSString stringWithFormat:@"抱歉~视频长度不能超过%ld分钟", (NSInteger)maxDur/60];
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:message preferredStyle:(UIAlertControllerStyleAlert)];
+        UIAlertAction *ok = [UIAlertAction actionWithTitle:@"好的" style:(UIAlertActionStyleDefault) handler:^(UIAlertAction * _Nonnull action) {
+            
+        }];
+        [alert addAction:ok];
+        [self presentViewController:alert animated:YES completion:nil];
+        return;
+        
+    }
+    
+    [ProgressHUD show];
+    
+    ______WS();
+    
+    [ZQPhotoFetcher getPhotoFastWithAssets:model.asset photoWidth:kTPScreenWidth completion:^(UIImage * _Nullable image, NSDictionary * _Nullable info) {
+        wSelf.exportImage = image;
+        ZQAlbumNavVC *nav = (ZQAlbumNavVC *)wSelf.navigationController;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            if (nav.updateUIFinishVideoPicking) {
+                nav.updateUIFinishVideoPicking(image);
+            }
+        });
+    }];
+    
+    [ZQPhotoFetcher exportVideoDegradedWithAssets:model.asset progress:^(CGFloat progress) {
+        //在progressHUD上加一个progress label
+        [ProgressHUD sharedInstance].progress = progress;
+    } completion:^(AVAsset * _Nullable playerAsset, NSDictionary * _Nullable info, NSURL * _Nullable url) {
+        ZQAlbumNavVC *nav = (ZQAlbumNavVC *)wSelf.navigationController;
+        dispatch_async(dispatch_get_main_queue(), ^{
+            [ProgressHUD hide];
+            [nav dismissViewControllerAnimated:YES completion:^{
+                ZQAlbumNavVC *nav = (ZQAlbumNavVC *)wSelf.navigationController;
+                if (nav.didFinishPickingVideoHandle) {
+                    nav.didFinishPickingVideoHandle(url, wSelf.exportImage, playerAsset);
+                }
+            }];
+            
+        });
+    }];
+}
+
 
 - (UIViewController *)firstViewController
 {
