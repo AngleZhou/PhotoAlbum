@@ -40,6 +40,7 @@ static NSString *const identifier = @"ZQListCell";
 
 @property (nonatomic, strong) NSArray *arrData;
 
+@property (weak, nonatomic) IBOutlet UILabel *labelName;
 
 @end
 
@@ -60,6 +61,9 @@ static NSString *const identifier = @"ZQListCell";
 - (id)initWithType:(ZQAlbumType)type maxImagesCount:(NSInteger)maxImagesCount bSingleSelection:(BOOL)bSingleSelection{
     self = [[[NSBundle mainBundle] loadNibNamed:NSStringFromClass([ZQListView class]) owner:nil options:nil] firstObject];
     self.type  = type;
+    if (self.type == ZQAlbumTypeVideo) {
+        self.labelName.text = @"所有视频";
+    }
     _maxImagesCount = maxImagesCount;
     _bSingleSelection = bSingleSelection;
      [self loadAllAlbums];
@@ -117,7 +121,7 @@ static NSString *const identifier = @"ZQListCell";
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath{
     ZQListCell *cell = [tableView dequeueReusableCellWithIdentifier:identifier forIndexPath:indexPath];
     if (indexPath.row < self.arrData.count) {
-        [cell setModel:self.arrData[indexPath.row] indexPath:indexPath];
+        [cell setModel:self.arrData[indexPath.row] indexPath:indexPath type:self.type];
         cell.tag = indexPath.row;
     }
     return cell;

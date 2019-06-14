@@ -107,7 +107,7 @@ static CGFloat kButtomBarHeight = 48;
     _labelTitle.textColor = [UIColor darkTextColor];
     _labelTitle.font = [UIFont systemFontOfSize:17 weight:UIFontWeightSemibold];
     _labelTitle.frame = CGRectMake(0, 10, 70, 24);
-    _labelTitle.text = @"所有照片";
+    _labelTitle.text = (self.type == ZQAlbumTypePhoto) ? @"所有照片" : @"所有视频";
     [_viewTitle addSubview:_labelTitle];
     _imageViewDown = [[UIImageView alloc] initWithFrame:CGRectMake(74, 17, 10, 10)];
     _imageViewDown.image = _image(@"down");

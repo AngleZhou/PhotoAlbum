@@ -40,12 +40,12 @@
     // Configure the view for the selected state
 }
 
-- (void)setModel:(ZQAlbumModel *)model indexPath:(NSIndexPath *)indexPath{
+- (void)setModel:(ZQAlbumModel *)model indexPath:(NSIndexPath *)indexPath type:(ZQAlbumType)type{
     _model = model;
     self.labelName.text = model.name;
     self.imageViewSelected.hidden = !model.isSelected;
     NSString *photoType = @"photos";
-    if ([model.name isEqualToString:@"Videos"]) {
+    if (type == ZQAlbumTypeVideo) {
         photoType = @"videos";
     }
     self.labelCount.text = [NSString stringWithFormat:@"%ld %@",(long)model.count,photoType];

@@ -74,6 +74,7 @@
                 <constraint firstItem="FxF-Zd-yvx" firstAttribute="leading" secondItem="iN0-l3-epB" secondAttribute="leading" id="wTz-bH-1Ch"/>
             </constraints>
             <connections>
+                <outlet property="labelName" destination="7SQ-AG-hwt" id="EtE-EB-PQN"/>
                 <outlet property="tableView" destination="mPu-0t-K62" id="M6m-C9-A4p"/>
                 <outlet property="viewMark" destination="HZw-33-53h" id="53L-2G-7MK"/>
             </connections>

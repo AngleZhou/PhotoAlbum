@@ -7,6 +7,7 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Typedefs.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
@@ -17,7 +18,7 @@ NS_ASSUME_NONNULL_BEGIN
 @property (nonatomic, strong) ZQAlbumModel *model;
 
 
-- (void)setModel:(ZQAlbumModel *)model indexPath:(NSIndexPath *)indexPath;
+- (void)setModel:(ZQAlbumModel *)model indexPath:(NSIndexPath *)indexPath type:(ZQAlbumType)type;
 
 @end
 
