@@ -42,6 +42,11 @@ static NSString *const identifier = @"ZQListCell";
 
 @property (weak, nonatomic) IBOutlet UILabel *labelName;
 
+@property (weak, nonatomic) IBOutlet UIView *viewTitle;
+
+@property (weak, nonatomic) IBOutlet NSLayoutConstraint *constraintViewLineHeight;
+
+
 @end
 
 @implementation ZQListView{
@@ -77,7 +82,9 @@ static NSString *const identifier = @"ZQListCell";
     self.viewMark.layer.cornerRadius = 2.5;
     self.viewMark.clipsToBounds = YES;
     self.backgroundColor = [UIColor clearColor];
+    self.constraintViewLineHeight.constant = 0.5;
     [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([ZQListCell class]) bundle:nil] forCellReuseIdentifier:identifier];
+    self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
     UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(move:)];
     [self addGestureRecognizer:pan];
    
@@ -128,8 +135,20 @@ static NSString *const identifier = @"ZQListCell";
 }
 
 #pragma mark -  UITableViewDelegate
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section{
+    UIView *iv = [UIView new];
+    iv.backgroundColor = [UIColor whiteColor];
+    return iv;
+}
+
+
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
     return 84;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section{
+    return 14;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
