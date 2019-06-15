@@ -84,7 +84,7 @@ static NSString *const identifier = @"ZQListCell";
     self.backgroundColor = [UIColor clearColor];
     self.constraintViewLineHeight.constant = 0.5;
     [self.tableView registerNib:[UINib nibWithNibName:NSStringFromClass([ZQListCell class]) bundle:nil] forCellReuseIdentifier:identifier];
-    self.tableView.separatorStyle = UITableViewCellSelectionStyleNone;
+    self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
     UIPanGestureRecognizer *pan = [[UIPanGestureRecognizer alloc] initWithTarget:self action:@selector(move:)];
     [self addGestureRecognizer:pan];
    
