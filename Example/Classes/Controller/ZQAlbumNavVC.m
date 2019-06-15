@@ -32,7 +32,12 @@
     if (albums.count == 0) {
     
       [ProgressHUD hide];
-        return nil;
+        NSString *msg = (type == ZQAlbumTypePhoto )? @"相册无照片":@"相册无视频";
+        UIAlertController *alert = [UIAlertController alertControllerWithTitle:nil message:msg preferredStyle:(UIAlertControllerStyleAlert)];
+        UIAlertAction *ok = [UIAlertAction actionWithTitle:@"确定" style:(UIAlertActionStyleDefault) handler:nil];
+        [alert addAction:ok];
+        [[ZQTools rootViewController] presentViewController:alert animated:YES completion:nil];
+        return self;
     }
     
 //        ZQAlbumListVC *lvc = [[ZQAlbumListVC alloc] init];
