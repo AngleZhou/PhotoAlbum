@@ -132,7 +132,7 @@ static CGFloat kButtomBarHeight = 48;
     btnRight.layer.cornerRadius = 15.0;
     [btnRight setTitleColor:ZQChoosePhotoNavBtnColor forState:UIControlStateNormal];
     btnRight.titleLabel.font = [UIFont systemFontOfSize:13 weight:UIFontWeightMedium];
-    [btnRight setTitle:@"完成" forState:UIControlStateNormal];
+    [btnRight setTitle:@"确定" forState:UIControlStateNormal];
     [btnRight addTarget:self action:@selector(finish) forControlEvents:UIControlEventTouchUpInside];
     self.navigationItem.rightBarButtonItem = [[UIBarButtonItem alloc] initWithCustomView:btnRight];
     
@@ -167,8 +167,8 @@ static CGFloat kButtomBarHeight = 48;
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (priSeleted && ![priSeleted.name isEqualToString: albumModel.name]) {
             [strongSelf.selected removeAllObjects];
-            CGSize s = [@"完成" textSizeWithFont:[UIFont systemFontOfSize:13] constrainedToSize:CGSizeMake(999, 999) lineBreakMode:NSLineBreakByWordWrapping];
-            [btnRight setTitle:@"完成" forState:UIControlStateNormal];
+            CGSize s = [@"确定" textSizeWithFont:[UIFont systemFontOfSize:13] constrainedToSize:CGSizeMake(999, 999) lineBreakMode:NSLineBreakByWordWrapping];
+            [btnRight setTitle:@"确定" forState:UIControlStateNormal];
             btnRight.frame = CGRectMake(0, 0, s.width+32, 30);
         }
         if (priSeleted && [priSeleted.name isEqualToString: albumModel.name]) {
@@ -462,10 +462,11 @@ static CGFloat kButtomBarHeight = 48;
                 [self.collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]]];
             }
             model.bSelected = YES;
+            
             [self.selected addObject:model];
             NSInteger index = [self.models indexOfObject:model];
             [self.collectionView reloadItemsAtIndexPaths:@[[NSIndexPath indexPathForRow:index inSection:0]]];
-            NSString *str = [NSString stringWithFormat:@"完成%ld",self.selected.count];
+            NSString *str = [NSString stringWithFormat:@"确定%ld",self.selected.count];
             CGSize s = [str textSizeWithFont:[UIFont systemFontOfSize:13] constrainedToSize:CGSizeMake(999, 999) lineBreakMode:NSLineBreakByWordWrapping];
             [btnRight setTitle:str forState:UIControlStateNormal];
             btnRight.frame = CGRectMake(0, 0, s.width+32, 30);
@@ -478,6 +479,7 @@ static CGFloat kButtomBarHeight = 48;
         NSIndexPath *idx = [self.collectionView indexPathForCell:cell];
         ZQPhotoModel *m = self.models[idx.row];
         m.bSelected = model.bSelected;
+        
         [self.selectedIdx addObject:idx];
         if (cell.bSelected) {
             [self.selected removeObject:model];
@@ -488,15 +490,14 @@ static CGFloat kButtomBarHeight = 48;
 //        [self.tbButtom selectionChange:self.selected];
         NSString *str;
         if (self.selected.count > 0) {
-            str = [NSString stringWithFormat:@"完成%ld",self.selected.count];
+            str = [NSString stringWithFormat:@"确定%ld",self.selected.count];
         }else{
-            str = @"完成";
+            str = @"确定";
         }
         
         CGSize s = [str textSizeWithFont:[UIFont systemFontOfSize:13] constrainedToSize:CGSizeMake(999, 999) lineBreakMode:NSLineBreakByWordWrapping];
         [btnRight setTitle:str forState:UIControlStateNormal];
         btnRight.frame = CGRectMake(0, 0, s.width+32, 30);
-        
         return YES;
     }
 }
