@@ -10,7 +10,7 @@
 #import "ZQPhotoModel.h"
 #import "Typedefs.h"
 
-static CGFloat kLineSpacing = 2;
+static CGFloat kLineSpacing = 1;
 #define kAlbumCellWidth (kTPScreenWidth - kLineSpacing*3)/4
 #define kAlbumCellThumbWidth 15
 
@@ -30,6 +30,7 @@ static CGFloat kLineSpacing = 2;
 @property (nonatomic, assign) BOOL bSelected;
 @property (nonatomic, assign) BOOL cancelLoad;
 @property (nonatomic, assign) ZQAlbumType type;
+@property (nonatomic, strong) NSArray *arrSeleted;
 
 @property (nonatomic, weak) id<ZQAlbumCellDelegate> delegate;
 

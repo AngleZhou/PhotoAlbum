@@ -45,6 +45,7 @@
     if (self.delegate && [self.delegate respondsToSelector:@selector(ZQAlbumCell:changeSelection:)]) {
         if ([self.delegate ZQAlbumCell:self changeSelection:self.model]) {
             self.bSelected = !_bSelected;
+           
         }
     }
 }
