@@ -128,9 +128,9 @@ static CGFloat kButtomBarHeight = 48;
     NSString* title =  @"确定" ;//_LocalizedString(@"OPERATION_CANCEL");
     CGSize s = [title textSizeWithFont:[UIFont systemFontOfSize:13] constrainedToSize:CGSizeMake(999, 999) lineBreakMode:NSLineBreakByWordWrapping];
     btnRight = [[UIButton alloc] initWithFrame:CGRectMake(0, 0, s.width+32, 30)];
-    btnRight.backgroundColor = [UIColor colorWithRed:251 / 255.0 green:225 / 255.0 blue:89 / 255.0 alpha:1.0];
     btnRight.layer.cornerRadius = 15.0;
-    [btnRight setTitleColor:ZQChoosePhotoNavBtnColor forState:UIControlStateNormal];
+    BOOL enable = (self.selected.count > 0) ? YES : NO;
+    [self changeBtnRightStatusWithEnable:enable];
     btnRight.titleLabel.font = [UIFont systemFontOfSize:13 weight:UIFontWeightMedium];
     [btnRight setTitle:@"确定" forState:UIControlStateNormal];
     [btnRight addTarget:self action:@selector(finish) forControlEvents:UIControlEventTouchUpInside];
@@ -167,6 +167,7 @@ static CGFloat kButtomBarHeight = 48;
         __strong typeof(weakSelf) strongSelf = weakSelf;
         if (priSeleted && ![priSeleted.name isEqualToString: albumModel.name]) {
             [strongSelf.selected removeAllObjects];
+            [strongSelf changeBtnRightStatusWithEnable:NO];
             CGSize s = [@"确定" textSizeWithFont:[UIFont systemFontOfSize:13] constrainedToSize:CGSizeMake(999, 999) lineBreakMode:NSLineBreakByWordWrapping];
             [btnRight setTitle:@"确定" forState:UIControlStateNormal];
             btnRight.frame = CGRectMake(0, 0, s.width+32, 30);
@@ -470,6 +471,8 @@ static CGFloat kButtomBarHeight = 48;
             CGSize s = [str textSizeWithFont:[UIFont systemFontOfSize:13] constrainedToSize:CGSizeMake(999, 999) lineBreakMode:NSLineBreakByWordWrapping];
             [btnRight setTitle:str forState:UIControlStateNormal];
             btnRight.frame = CGRectMake(0, 0, s.width+32, 30);
+            BOOL enable = (self.selected.count > 0) ? YES : NO;
+            [self changeBtnRightStatusWithEnable:enable];
             return YES;
         }
         [ZQPhotoFetcher exceedMaxImagesCountAlert:self.maxImagesCount presentingVC:self navVC:((ZQAlbumNavVC*)self.navigationController)];
@@ -498,10 +501,24 @@ static CGFloat kButtomBarHeight = 48;
         CGSize s = [str textSizeWithFont:[UIFont systemFontOfSize:13] constrainedToSize:CGSizeMake(999, 999) lineBreakMode:NSLineBreakByWordWrapping];
         [btnRight setTitle:str forState:UIControlStateNormal];
         btnRight.frame = CGRectMake(0, 0, s.width+32, 30);
+        BOOL enable = (self.selected.count > 0) ? YES : NO;
+        [self changeBtnRightStatusWithEnable:enable];
         return YES;
     }
 }
 
+
+- (void)changeBtnRightStatusWithEnable:(BOOL)enable{
+    btnRight.userInteractionEnabled = enable;
+    if (enable) {
+        btnRight.backgroundColor = [UIColor colorWithRed:251 / 255.0 green:225 / 255.0 blue:89 / 255.0 alpha:1.0];
+        [btnRight setTitleColor:[UIColor blackColor] forState:UIControlStateNormal];
+    }else{
+        btnRight.backgroundColor = [UIColor colorWithRed:242 / 255.0 green:242 / 255.0 blue:242 / 255.0 alpha:1];
+        [btnRight setTitleColor:[UIColor colorWithRed:149 / 255.0 green:149 / 255.0 blue:149 / 255.0 alpha:1] forState:UIControlStateNormal];
+    }
+   
+}
 
 
 - (NSMutableArray<ZQPhotoModel *> *)selected {
